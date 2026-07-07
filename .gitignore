@@ -1,0 +1,27 @@
+# dependencies
+node_modules
+
+# build output
+dist
+dist-ssr
+
+# local env & secrets
+.env
+.env.*
+*.local
+*.pem
+*.key
+
+# editor / OS
+.DS_Store
+.vscode
+.idea
+.claude
+
+# arhive & referințe (nu fac parte din app)
+_archive
+design-system
+
+# logs
+*.log
+npm-debug.log*
