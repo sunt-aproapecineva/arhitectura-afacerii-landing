@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "title": "Arhitectura Afacerii · Victor Morar"
+  },
+  "nav": {
+    "cta": "Înscrie-te",
+    "ctaDrawer": "Înscrie-te la program"
+  },
+  "heroVideos": {
+    "headlineLine1": "Hai să construim afaceri,",
+    "headlineLine2": "care îți oferă",
+    "rotatingWords": ["liniște", "timp", "ordine"],
+    "subheadline": "În doar 2 luni alături de mine îți restructurezi afacerea din rădăcină — o sistematizăm astfel încât să fii antreprenor liber."
+  },
+  "marquee": [
+    "Proiect, nu improvizație",
+    "6 etape",
+    "8 săptămâni",
+    "Livrabile reale, nu notițe",
+    "Aplici pe firma ta",
+    "Mentor prezent",
+    "Grup restrâns"
+  ],
+  "imagineaza": {
+    "text": "Imaginează-ți o zi în care ai [[luxul să nu pleci la oficiu]] — fără grija că fără tine lucrurile vor merge prost. [[Ai timp]] să iei decizii strategice, să petreci cu familia, [[să ai grijă de tine și de sănătatea ta]]."
+  },
+  "durereStack": {
+    "eyebrow": "Îți sună cunoscut?",
+    "headline": "Dacă te regăsești mai jos, îți recomand să vii. Dacă în mai multe — trebuie să vii.",
+    "items": [
+      { "title": "Telefonul sună și în vacanță.", "desc": "Dacă nu răspunzi tu, se oprește tot. Nu mai pleci nicăieri — sau pleci cu laptopul." },
+      { "title": "Fiecare decizie trece prin tine.", "desc": "„Șefu, cum fac aici?\" de 30 de ori pe zi. Ai devenit coșul de gunoi al firmei tale." },
+      { "title": "Stingi incendii toată ziua.", "desc": "Pentru strategie, creștere, viață — nu mai rămâne nimic." },
+      { "title": "Crești — și haosul crește cu tine.", "desc": "Fiecare client nou aduce muncă pentru tine, nu pentru sistem. Pentru că sistemul nu există." },
+      { "title": "Nu îți permiți să te îmbolnăvești.", "desc": "O săptămână în pat și firma intră în cădere liberă. Concediu medical? Nu există pentru tine." },
+      { "title": "Oamenii buni pleacă.", "desc": "Fără roluri și procese clare, cei capabili se sufocă. Rămân cei care așteaptă să le spui tu ce să facă." },
+      { "title": "Cifrele le afli la final de lună.", "desc": "Conduci din instinct, nu din date. Problemele le vezi abia când se simt în cont." },
+      { "title": "Firma nu valorează nimic fără tine.", "desc": "Vrei să scalezi, să atragi investiții sau să vinzi? O afacere care depinde de fondator nu e un activ — e un job." }
+    ],
+    "outro": "Nu ți-a lipsit munca. Nu ți-a lipsit efortul.\nȚi-a lipsit [[proiectul]].",
+    "cta": "Vezi cum se construiește corect"
+  },
+  "metoda": {
+    "eyebrow": "Metoda",
+    "headline": "O afacere se construiește ca o casă.",
+    "lede": "Nimeni normal la cap nu construiește o casă fără proiect. Cele 6 etape, în ordinea exactă în care se ridică un business — derulează."
+  },
+  "analytics": {
+    "eyebrow": "Tabloul de bord",
+    "headline1": "Toată afacerea ta,",
+    "headline2": "dintr-o privire.",
+    "sub": "Conduci din cifre, nu din telefoane. Datele vin la tine — în timp real.",
+    "card1Title": "Vezi tabloul complet al afacerii.",
+    "card1Body": "Sistemul îți ține vânzările, procesele și obiectivele aliniate — o imagine clară a ritmului afacerii tale, decizii mai bune, stabilitate.",
+    "card2Title": "Fiecare proces, documentat.",
+    "card2Body": "Vizibilitate reală asupra a ce se întâmplă în firmă — cine, ce, când, fără să întrebi."
+  },
+  "cazuri": {
+    "eyebrow": "Cazuri reale",
+    "headline": "Oameni reali. Situații reale.",
+    "lede": "Antreprenori care construiesc chiar acum, în practicum — și ce s-a schimbat deja."
+  },
+  "radialTimeline": {
+    "eyebrow": "Transformarea",
+    "headline": "Ce construim împreună în 8 săptămâni.",
+    "lede": "Nu notițe și inspirație — livrabile. Apasă pe fiecare piesă a sistemului ca s-o vezi în detaliu."
+  },
+  "bento": {
+    "eyebrow": "Ce primești — concret",
+    "headline": "Construiești, nu memorezi.",
+    "lede": "Nu un curs. Un practicum — cu tot ce-ți trebuie ca să aplici, etapă cu etapă.",
+    "items": [
+      { "title": "Lecții video, etapă cu etapă", "desc": "Fiecare din cele 6 etape, filmată cu exemple reale din România și Moldova. Construiești în timp ce înveți." },
+      { "title": "Sesiuni live cu Victor", "desc": "Grup restrâns, mentorul prezent. Întrebări reale, răspunsuri pe cazul tău." },
+      { "title": "Apeluri 1-la-1", "desc": "Cazul tău, firma ta, echipa ta. Diferențiat pe pachete." },
+      { "title": "Șabloane gata de folosit", "desc": "Organigrame, fișe de post, procese model — instant, completate pe firma ta." },
+      { "title": "Comunitate privată", "desc": "Antreprenori reali. Peer learning, nu un curs solitar." },
+      { "title": "Suport la implementare", "desc": "Nu doar teorie — ajutor la fiecare pas pe care îl faci." }
+    ]
+  },
+  "intelligence": {
+    "eyebrow": "Platforma · doar pentru elevi",
+    "headline1": "Sistemul tău,",
+    "headline2": "într-un singur loc.",
+    "sub": "Instrumentele cu care construiești — inteligente, mereu la îndemână.",
+    "cards": [
+      { "title": "Întrebări în limbaj natural", "desc": "Întrebi despre afacerea ta în limbaj simplu și primești răspunsuri instant, pe datele tale." },
+      { "title": "Analiză predictivă", "desc": "Sistemul citește tiparele și anticipează unde crește — și unde se blochează — afacerea ta." },
+      { "title": "Organigrama automată", "desc": "Structura firmei tale, mereu la zi — cine răspunde de ce, până la ultimul detaliu." }
+    ]
+  },
+  "trust": {
+    "eyebrow": "De ce funcționează",
+    "headline": "Cursurile obișnuite se opresc la teorie. Aici construiești.",
+    "items": [
+      { "title": "Construit pe 18 ani reali", "desc": "Nu teorie de pe internet — sistemul prin care Victor conduce azi 5 companii cu 250+ oameni, fără să fie indispensabil în niciuna." },
+      { "title": "Aplicat pe firma ta", "desc": "Lucrezi pe cazul tău concret, nu pe studii de caz generice. Ieși cu documente, procese și un tablou de bord — nu cu notițe." },
+      { "title": "Sistem, nu motivație", "desc": "Rezultatul rămâne după ce se termină programul: o competență de sistematizare pe care o aplici la orice afacere, de acum înainte." }
+    ]
+  },
+  "cinematic": {
+    "headline": "O afacere se construiește o singură dată.",
+    "lede": "Hai s-o construim corect — cu proiect, nu pe ghicite."
+  },
+  "pricing": {
+    "badge": "Pachete",
+    "headline": "Alege nivelul de implicare.",
+    "sub": "Aceeași metodă, aceleași livrabile. Diferența e câtă atenție 1-la-1 primești de la Victor. O singură dată, acces 12 luni.",
+    "microcopy": "Grupurile sunt restrânse intenționat — mentorat real, nu webinar cu 500 de oameni. Apeși „Înscrie-te\" și primești prețurile și toate detaliile."
+  },
+  "faq": {
+    "eyebrow": "Întrebări",
+    "headline": "Întrebările pe care ți le pui acum.",
+    "items": [
+      { "q": "Cum mă înscriu?", "a": "Apeși pe „Înscrie-te\" și primești direct detaliile înscrierii — pachetele, prețurile și pașii următori. Grupul e restrâns intenționat, iar locurile se ocupă în ordinea înscrierii." },
+      { "q": "E pentru afacerea mea?", "a": "Programul e construit pentru afaceri active — cu clienți, cu angajați (sau pe cale să angajeze) — blocate în operațional: totul trece prin fondator. Dacă te-ai regăsit în situațiile de mai sus, e pentru tine. Mărimea sau domeniul nu contează; lipsa sistemului arată la fel peste tot." },
+      { "q": "E prea scump", "a": "Înțeleg — și haosul costă lunar: ore pierdute, decizii amânate, creștere oprită. Diferența e că programul se plătește o singură dată, iar sistemul rămâne al tău — organigramă, procese, tablou de bord care lucrează în fiecare lună de acum înainte." },
+      { "q": "Nu am timp", "a": "2–3 ore pe săptămână — mai puțin decât pierzi acum în haos într-o singură zi. Iar programul e construit exact pentru oameni fără timp: fiecare oră investită îți întoarce ore, pentru că predai din mers ce documentezi." },
+      { "q": "Am mai cumpărat cursuri și nu m-au ajutat", "a": "Aceasta nu e un curs. E un practicum — construiești, nu consumi. La final ai documente completate pe firma ta, procese scrise și un sistem care funcționează. Dacă ai notițe frumoase și nimic schimbat, ai avut un curs. Aici e invers." },
+      { "q": "Și dacă nu funcționează la mine?", "a": "Victor lucrează cu situația ta concretă, nu cu cazuri generice — pe firma ta, în timp real. Fiecare lecție o implementezi pe loc, cu feedback direct, așa că vezi ce se schimbă pe măsură ce construiești, nu abia la final." },
+      { "q": "Pot face asta singur?", "a": "Poți. Victor a făcut-o singur — i-a luat ani și greșeli plătite scump. Asta e diferența dintre a construi fără proiect și a construi cu proiect: 3–5 ani, sau 8 săptămâni." }
+    ]
+  },
+  "footer": {
+    "tagline": "Practicum de sistematizare. 6 etape, 8 săptămâni, livrabile reale."
+  },
+  "waitlist": {
+    "button": "Înscrie-te",
+    "success": "Primit! Îți trimitem detaliile înscrierii.",
+    "reassurance": "Fără spam. Primești direct detaliile înscrierii — pachete, prețuri, pașii următori."
+  },
+  "heroFilm": {
+    "eyebrow": "Flux 2 · Se deschide în curând",
+    "headlineLine1": "Afacerea ta,",
+    "headlineLine2": "construită cu",
+    "rotatingWords": ["proiect", "sistem", "structură", "ordine"],
+    "subheadline": "Indiferent dacă pornești de la zero sau ești blocat la mijloc — în 8 săptămâni ai o afacere care merge și fără tine. Cu Victor Morar."
+  },
+  "durere": {
+    "eyebrow": "Îți sună cunoscut?",
+    "headline": "Dacă te regăsești într-o situație de mai jos, îți recomand să vii. Dacă în mai multe — trebuie să vii.",
+    "items": [
+      { "title": "Telefonul sună și în vacanță.", "desc": "Dacă nu răspunzi tu, se oprește tot. Așa că nu mai pleci nicăieri — sau pleci cu laptopul." },
+      { "title": "Ai angajați — dar fiecare decizie trece tot prin tine.", "desc": "„Șefu, cum fac aici?\" de 30 de ori pe zi. Ai devenit coșul de gunoi al firmei tale." },
+      { "title": "Stingi incendii toată ziua.", "desc": "Pentru lucrurile cu adevărat importante — strategie, creștere, viață — nu mai rămâne nimic." },
+      { "title": "Crești — și haosul crește odată cu tine.", "desc": "Fiecare client nou aduce mai multă muncă pentru tine, nu pentru sistem. Pentru că sistemul nu există." },
+      { "title": "Nu îți permiți să te îmbolnăvești.", "desc": "O săptămână în pat și firma intră în cădere liberă. Concediu medical? Nu există pentru tine." },
+      { "title": "Oamenii buni pleacă.", "desc": "Fără roluri și procese clare, cei capabili se sufocă în haos. Rămân cei care așteaptă să le spui tu ce să facă." },
+      { "title": "Cifrele le afli la final de lună. Sau deloc.", "desc": "Conduci din instinct, nu din date. Problemele le vezi abia când se simt în cont." },
+      { "title": "Firma ta nu valorează nimic fără tine.", "desc": "Vrei să scalezi, să atragi investiții sau să vinzi? O afacere care depinde de fondator nu e un activ — e un job." }
+    ],
+    "outro": "Nu ți-a lipsit munca. Nu ți-a lipsit efortul.\nȚi-a lipsit [[proiectul]].",
+    "cta": "Vezi cum se construiește corect"
+  }
+}

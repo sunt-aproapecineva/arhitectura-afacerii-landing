@@ -6,6 +6,7 @@
  * pulsează). Responsive (rază după lățime), reduced-motion → orbite statice.
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useContent } from '../content/ContentContext'
 
 type Node = { id: number; t: string; d: string; res: string; rel: number[]; icon: ReactNode }
 const G = 'var(--accent)'
@@ -28,6 +29,7 @@ const NODES: Node[] = [
 ]
 
 export default function RadialTimeline() {
+  const c = useContent()
   const [angle, setAngle] = useState(0)
   const [active, setActive] = useState<number | null>(null)
   const [auto, setAuto] = useState(true)
@@ -66,9 +68,9 @@ export default function RadialTimeline() {
     <section id="transformare" className="section" style={{ borderTop: '1px solid var(--line)', overflow: 'hidden' }}>
       <div className="container">
         <div style={{ maxWidth: 760, marginBottom: 'clamp(24px,4vw,40px)' }}>
-          <div className="eyebrow reveal" style={{ marginBottom: 18 }}>Transformarea</div>
-          <h2 className="h-lg reveal">Ce construim împreună în 8 săptămâni.</h2>
-          <p className="lede reveal" style={{ marginTop: 22 }}>Nu notițe și inspirație — livrabile. Apasă pe fiecare piesă a sistemului ca s-o vezi în detaliu.</p>
+          <div className="eyebrow reveal" style={{ marginBottom: 18 }}>{c.radialTimeline.eyebrow}</div>
+          <h2 className="h-lg reveal">{c.radialTimeline.headline}</h2>
+          <p className="lede reveal" style={{ marginTop: 22 }}>{c.radialTimeline.lede}</p>
         </div>
 
         <div ref={wrapRef} className="rt-stage" onClick={() => { setActive(null); setAuto(true) }}>

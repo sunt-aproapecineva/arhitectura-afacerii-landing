@@ -7,17 +7,10 @@
  * static. Limbajul e al audienței BUSINESS (cazuri reale), nu al nostru.
  */
 import { type ReactNode } from 'react'
+import { useContent } from '../content/ContentContext'
+import { Rich } from '../content/rich'
 
-const DURERI: { t: string; d: string }[] = [
-  { t: 'Telefonul sună și în vacanță.', d: 'Dacă nu răspunzi tu, se oprește tot. Așa că nu mai pleci nicăieri — sau pleci cu laptopul.' },
-  { t: 'Ai angajați — dar fiecare decizie trece tot prin tine.', d: '„Șefu, cum fac aici?" de 30 de ori pe zi. Ai devenit coșul de gunoi al firmei tale.' },
-  { t: 'Stingi incendii toată ziua.', d: 'Pentru lucrurile cu adevărat importante — strategie, creștere, viață — nu mai rămâne nimic.' },
-  { t: 'Crești — și haosul crește odată cu tine.', d: 'Fiecare client nou aduce mai multă muncă pentru tine, nu pentru sistem. Pentru că sistemul nu există.' },
-  { t: 'Nu îți permiți să te îmbolnăvești.', d: 'O săptămână în pat și firma intră în cădere liberă. Concediu medical? Nu există pentru tine.' },
-  { t: 'Oamenii buni pleacă.', d: 'Fără roluri și procese clare, cei capabili se sufocă în haos. Rămân cei care așteaptă să le spui tu ce să facă.' },
-  { t: 'Cifrele le afli la final de lună. Sau deloc.', d: 'Conduci din instinct, nu din date. Problemele le vezi abia când se simt în cont.' },
-  { t: 'Firma ta nu valorează nimic fără tine.', d: 'Vrei să scalezi, să atragi investiții sau să vinzi? O afacere care depinde de fondator nu e un activ — e un job.' },
-]
+// Textele durerilor vin din stratul de conținut: src/content/default.json → durere.items
 
 const Arrow = ({ s = 15 }: { s?: number }) => (
   <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M5 12h14M13 6l6 6-6 6" /></svg>
@@ -83,34 +76,35 @@ function Funnel({ reduce }: { reduce: boolean }): ReactNode {
 }
 
 export default function Durere() {
+  const c = useContent()
   const reduce = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   return (
     <section id="durere" className="section" style={{ borderTop: '1px solid var(--line)' }}>
       <div className="container">
         <div style={{ maxWidth: 900, marginInline: 'auto', textAlign: 'center' }}>
-          <div className="eyebrow reveal" style={{ marginBottom: 18 }}>Îți sună cunoscut?</div>
-          <h2 className="h-lg reveal" style={{ textWrap: 'balance' }}>Dacă te regăsești într-o situație de mai jos, îți recomand să vii. Dacă în mai multe — trebuie să vii.</h2>
+          <div className="eyebrow reveal" style={{ marginBottom: 18 }}>{c.durere.eyebrow}</div>
+          <h2 className="h-lg reveal" style={{ textWrap: 'balance' }}>{c.durere.headline}</h2>
         </div>
 
         <Funnel reduce={reduce} />
 
         <div className="dur-timeline">
           <span className="dur-line" aria-hidden />
-          {DURERI.map((p, i) => (
+          {c.durere.items.map((p, i) => (
             <div key={i} className="dur-item reveal">
               <div className="dur-node" aria-hidden><span /></div>
               <div className="dur-body">
                 <div className="dur-num">{String(i + 1).padStart(2, '0')}</div>
-                <h3 className="dur-title">{p.t}</h3>
-                <p className="dur-desc">{p.d}</p>
+                <h3 className="dur-title">{p.title}</h3>
+                <p className="dur-desc">{p.desc}</p>
               </div>
             </div>
           ))}
         </div>
 
         <div className="reveal" style={{ marginTop: 'clamp(40px,6vw,64px)', maxWidth: 720, marginInline: 'auto', textAlign: 'center' }}>
-          <p className="lede" style={{ color: 'var(--text)' }}>Nu ți-a lipsit munca. Nu ți-a lipsit efortul.<br />Ți-a lipsit <em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>proiectul</em>.</p>
-          <a href="#metoda" className="btn-link" style={{ marginTop: 20, justifyContent: 'center' }}>Vezi cum se construiește corect <Arrow /></a>
+          <p className="lede" style={{ color: 'var(--text)' }}><Rich text={c.durere.outro} accent={(chunk, i) => <em key={i} style={{ fontStyle: 'normal', color: 'var(--accent)' }}>{chunk}</em>} /></p>
+          <a href="#metoda" className="btn-link" style={{ marginTop: 20, justifyContent: 'center' }}>{c.durere.cta} <Arrow /></a>
         </div>
       </div>
     </section>

@@ -7,6 +7,7 @@
 import { useRef, useEffect, useState, type ReactNode } from 'react'
 import { WordFlip, useScramble } from '../fx/anim'
 import WaitlistCapture from './Waitlist'
+import { useContent } from '../content/ContentContext'
 
 const TOTAL = 106
 const tier = typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile'
@@ -14,11 +15,12 @@ const tier = typeof window !== 'undefined' && window.innerWidth < 768 ? 'mobile'
 const src = (i: number) => `/film/${tier}/frame-${String(i + 1).padStart(3, '0')}.webp`
 
 export default function HeroFilm({ children }: { children?: ReactNode }) {
+  const c = useContent()
   const wrapRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const [first, setFirst] = useState(false)
-  const eyebrow = useScramble('Flux 2 · Se deschide în curând', { duration: 1.1, delay: 0.2 })
+  const eyebrow = useScramble(c.heroFilm.eyebrow, { duration: 1.1, delay: 0.2 })
 
   useEffect(() => {
     const canvas = canvasRef.current!
@@ -89,9 +91,9 @@ export default function HeroFilm({ children }: { children?: ReactNode }) {
         <div className="container" style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div ref={contentRef} style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center', willChange: 'opacity, transform' }}>
             <div className="eyebrow" style={{ marginBottom: 22, fontVariantNumeric: 'tabular-nums' }}>{eyebrow}</div>
-            <h1 className="display">Afacerea ta,<br />construită cu <WordFlip words={['proiect', 'sistem', 'structură', 'ordine']} /></h1>
+            <h1 className="display">{c.heroFilm.headlineLine1}<br />{c.heroFilm.headlineLine2} <WordFlip words={c.heroFilm.rotatingWords} /></h1>
             <p className="lede" style={{ margin: '24px auto 0', maxWidth: 540, color: 'rgba(241,234,217,0.82)' }}>
-              Indiferent dacă pornești de la zero sau ești blocat la mijloc — în 8 săptămâni ai o afacere care merge și fără tine. Cu Victor Morar.
+              {c.heroFilm.subheadline}
             </p>
             <div style={{ marginTop: 38 }}><WaitlistCapture center /></div>
             <div style={{ marginTop: 18, fontSize: 14, color: 'var(--text-dim)' }}>Sau <a href="#durere" style={{ color: 'var(--text)', textDecoration: 'underline', textUnderlineOffset: 3 }}>vezi dacă te recunoști →</a></div>

@@ -5,9 +5,13 @@
  * badge pe pachetul recomandat. Paleta + fonturile noastre. Butoane → #lista.
  * Prețurile: „Curând" până când userul dă cifrele (atunci: price+priceOld).
  */
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
 import { ENROLL_URL } from '../lib/links'
+import { useContent } from '../content/ContentContext'
+
+const AVANS = 199 // avansul de rezervare (ambele pachete)
+const fmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(2).replace('.', ','))
 
 const Check = () => (<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>)
 const Close = () => (<svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg>)
@@ -31,28 +35,28 @@ function PlanMark({ gold }: { gold: boolean }) {
 }
 
 type Feat = { t: string; on: boolean }
-type Plan = { name: string; price: string; priceOld?: string; sub: string; feats: Feat[]; featured?: boolean; badge?: string; note?: string; gold?: boolean }
+type Plan = { name: string; price: number; sub: string; feats: Feat[]; featured?: boolean; badge?: string; note?: string; gold?: boolean }
 
 const PLANS: Plan[] = [
   {
-    name: 'Business Designer', price: 'Curând', sub: 'Programul complet + mentorat de grup, cu Victor prezent.', featured: true, badge: 'Recomandat', gold: false,
+    name: 'Business Designer', price: 889, sub: 'Programul complet + mentorat de grup, cu Victor prezent.', featured: true, badge: 'Recomandat', gold: false,
     feats: [
       { t: 'Programa completă — 6 etape', on: true },
       { t: '4 workshop-uri live cu Victor', on: true },
       { t: 'Telegram zilnic cu Victor', on: true },
       { t: 'Organigrame + șabloane reale', on: true },
-      { t: '3 ședințe 1-la-1 · 60 min', on: false },
+      { t: '2 ședințe 1-la-1 · 60 min', on: false },
       { t: 'Canal privat · răspuns în 24h', on: false },
     ],
   },
   {
-    name: 'Business Arhitect', price: 'Curând', sub: 'Tot, plus atenția 1-la-1 a lui Victor pe firma ta.', note: 'Doar 5 locuri', gold: true,
+    name: 'Business Arhitect', price: 1349, sub: 'Tot, plus atenția 1-la-1 a lui Victor pe firma ta.', note: 'Doar 5 locuri', gold: true,
     feats: [
       { t: 'Programa completă — 6 etape', on: true },
       { t: '4 workshop-uri live cu Victor', on: true },
       { t: 'Telegram zilnic cu Victor', on: true },
       { t: 'Organigrame + șabloane reale', on: true },
-      { t: '3 ședințe 1-la-1 · 60 min', on: true },
+      { t: '2 ședințe 1-la-1 · 60 min', on: true },
       { t: 'Canal privat · răspuns în 24h', on: true },
     ],
   },
@@ -76,20 +80,26 @@ function Spotlight({ children }: { children: React.ReactNode }) {
 }
 
 export default function Pricing() {
+  const c = useContent()
+  const [inst, setInst] = useState(false) // false = plată integrală, true = în 2 rate
   return (
     <section id="pachete" className="section" style={{ borderTop: '1px solid var(--line)' }}>
       <div className="container">
-        {/* header */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginBottom: 'clamp(40px,6vw,64px)', alignItems: 'flex-start' }} className="pr-head">
-          <div style={{ maxWidth: 620 }}>
-            <span className="reveal" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 999, background: 'var(--accent-soft)', border: '1px solid var(--line)', padding: '5px 12px', fontSize: 12, color: 'var(--text-dim)', marginBottom: 22 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)' }} />Pachete
-            </span>
-            <h2 className="h-lg reveal">Alege nivelul de implicare.</h2>
+        {/* header — centrat */}
+        <div style={{ maxWidth: 620, marginInline: 'auto', textAlign: 'center', marginBottom: 'clamp(28px,4vw,40px)' }}>
+          <span className="reveal" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, borderRadius: 999, background: 'var(--accent-soft)', border: '1px solid var(--line)', padding: '5px 12px', fontSize: 12, color: 'var(--text-dim)', marginBottom: 22 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)' }} />{c.pricing.badge}
+          </span>
+          <h2 className="h-lg reveal">{c.pricing.headline}</h2>
+          <p className="reveal" style={{ marginTop: 16, fontSize: 15, color: 'var(--text-dim)' }}>{c.pricing.sub}</p>
+        </div>
+
+        {/* switch plată integrală / 2 rate */}
+        <div className="reveal" style={{ display: 'flex', justifyContent: 'center', marginBottom: 'clamp(28px,4vw,40px)' }}>
+          <div className="pr-toggle" role="tablist" aria-label="Mod de plată">
+            <button role="tab" aria-selected={!inst} className={!inst ? 'on' : ''} onClick={() => setInst(false)}>Plată integrală</button>
+            <button role="tab" aria-selected={inst} className={inst ? 'on' : ''} onClick={() => setInst(true)}>În 2 rate</button>
           </div>
-          <p className="reveal" style={{ maxWidth: 380, fontSize: 15, color: 'var(--text-dim)' }}>
-            Aceeași metodă, aceleași livrabile. Diferența e câtă atenție 1-la-1 primești de la Victor. O singură dată, acces 12 luni.
-          </p>
         </div>
 
         {/* carduri */}
@@ -102,11 +112,20 @@ export default function Pricing() {
                 <div className="pr-eyebrow">{p.name}</div>
                 <div className="pr-divider" />
                 <div className="pr-price-row">
-                  <span className="pr-price">{p.price}</span>
-                  {p.priceOld && <span className="pr-price-old">{p.priceOld}</span>}
+                  <span className="pr-price">{fmt(inst ? p.price / 2 : p.price)}</span>
+                  <span className="pr-cur">€</span>
+                  {inst && <span className="pr-per">/ rată</span>}
+                </div>
+                <div className="pr-price-2">
+                  {inst
+                    ? <>2 rate egale · <span className="pr-total">total {p.price} €</span></>
+                    : <>plată unică · acces 12 luni</>}
                 </div>
                 <p className="pr-sub">{p.sub}</p>
-                <a href={ENROLL_URL} className={`btn ${p.featured ? 'btn-primary' : 'btn-ghost'}`} style={{ width: '100%', marginTop: 24 }}>Înscrie-te</a>
+                <div className="pr-actions">
+                  <a href={ENROLL_URL} className="btn btn-primary" style={{ width: '100%' }}>Achită integral · {p.price} €</a>
+                  <a href={ENROLL_URL} className="btn btn-ghost" style={{ width: '100%' }}>Plătește avansul · {AVANS} €</a>
+                </div>
                 <ul className="pr-feats">
                   {p.feats.map((f, i) => (
                     <li key={i} className={`pr-feat${f.on ? '' : ' off'}${i > 0 ? ' div' : ''}`}>
@@ -120,8 +139,8 @@ export default function Pricing() {
             </Spotlight>
           ))}
         </div>
-        <p className="muted reveal" style={{ marginTop: 28, fontSize: 13, maxWidth: 560 }}>
-          Grupurile sunt restrânse intenționat — mentorat real, nu webinar cu 500 de oameni. Apeși „Înscrie-te" și primești prețurile și toate detaliile.
+        <p className="muted reveal" style={{ marginTop: 28, fontSize: 13, maxWidth: 560, marginInline: 'auto', textAlign: 'center' }}>
+          {c.pricing.microcopy}
         </p>
       </div>
     </section>

@@ -4,15 +4,18 @@
  * cu fiecare videoclip (liniște / timp / ordine), cu litere blur-in.
  */
 import { useEffect, useRef, useState } from 'react'
+import { useContent } from '../content/ContentContext'
 
+// cuvântul sincron cu fiecare video vine din conținut (heroVideos.rotatingWords, aceeași ordine)
 const SLIDES = [
-  { src: 'https://res.cloudinary.com/dvhjqysr4/video/upload/v1783005948/SEEDANCE_PROMPT___s__mcaff0.mp4', word: 'liniște' },
-  { src: 'https://res.cloudinary.com/dvhjqysr4/video/upload/v1783005948/SEEDANCE_PROMPT___s__2_sedeoq.mp4', word: 'timp' },
-  { src: 'https://res.cloudinary.com/dvhjqysr4/video/upload/v1783005947/SEEDANCE_PROMPT___s__1_on4h6u.mp4', word: 'ordine' },
+  { src: 'https://res.cloudinary.com/dvhjqysr4/video/upload/v1783005948/SEEDANCE_PROMPT___s__mcaff0.mp4' },
+  { src: 'https://res.cloudinary.com/dvhjqysr4/video/upload/v1783005948/SEEDANCE_PROMPT___s__2_sedeoq.mp4' },
+  { src: 'https://res.cloudinary.com/dvhjqysr4/video/upload/v1783005947/SEEDANCE_PROMPT___s__1_on4h6u.mp4' },
 ]
 const FALLBACK_MS = 9000 // dacă `ended` nu vine (buffer/stream), avansăm oricum
 
 export default function HeroVideos() {
+  const c = useContent()
   const [i, setI] = useState(0)
   const vids = useRef<(HTMLVideoElement | null)[]>([])
   const reduce = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -26,7 +29,8 @@ export default function HeroVideos() {
     return () => clearTimeout(t)
   }, [i, reduce])
 
-  const word = SLIDES[i].word
+  const words = c.heroVideos.rotatingWords
+  const word = words[i % words.length] ?? ''
 
   return (
     <div id="top" style={{ position: 'relative', height: '100svh', overflow: 'hidden' }}>
@@ -50,7 +54,7 @@ export default function HeroVideos() {
       <div className="container" style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ maxWidth: 940, margin: '0 auto', textAlign: 'center' }}>
           <h1 className="hero-title balance">
-            Hai să construim afaceri,<br />care îți oferă{' '}
+            {c.heroVideos.headlineLine1}<br />{c.heroVideos.headlineLine2}{' '}
             <span key={i} aria-label={word} style={{ color: 'var(--accent)', display: 'inline-block', whiteSpace: 'nowrap' }}>
               {word.split('').map((ch, k) => (
                 <span key={k} className="wf-letter" style={{ display: 'inline-block', animationDelay: `${k * 0.04}s` }}>{ch}</span>
@@ -58,7 +62,7 @@ export default function HeroVideos() {
             </span>.
           </h1>
           <p className="lede balance" style={{ margin: 'clamp(22px,3vw,32px) auto 0', maxWidth: 660, color: 'rgba(241,234,217,0.88)' }}>
-            În doar 2 luni alături de mine îți restructurezi afacerea din rădăcină — o sistematizăm astfel încât să fii antreprenor liber.
+            {c.heroVideos.subheadline}
           </p>
         </div>
       </div>

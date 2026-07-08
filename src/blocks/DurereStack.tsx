@@ -10,19 +10,21 @@
  */
 import { useEffect, useRef, type ReactNode } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
+import { useContent } from '../content/ContentContext'
+import { Rich } from '../content/rich'
 
-type Pain = { t: string; d: string; icon: ReactNode }
 const I = (p: ReactNode) => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>{p}</svg>
 
-const DURERI: Pain[] = [
-  { t: 'Telefonul sună și în vacanță.', d: 'Dacă nu răspunzi tu, se oprește tot. Nu mai pleci nicăieri — sau pleci cu laptopul.', icon: I(<><path d="M6.5 3.5h3l1.4 3.6-1.8 1.1a11 11 0 0 0 4.7 4.7l1.1-1.8 3.6 1.4v3a1.5 1.5 0 0 1-1.6 1.5A15 15 0 0 1 5 6.1 1.5 1.5 0 0 1 6.5 3.5z" /></>) },
-  { t: 'Fiecare decizie trece prin tine.', d: '„Șefu, cum fac aici?" de 30 de ori pe zi. Ai devenit coșul de gunoi al firmei tale.', icon: I(<><path d="M4 5h16l-6 7v6l-4-2v-4L4 5z" /></>) },
-  { t: 'Stingi incendii toată ziua.', d: 'Pentru strategie, creștere, viață — nu mai rămâne nimic.', icon: I(<><path d="M12 3s5 3.2 5 8a5 5 0 0 1-10 0c0-2 .9-3.4 2.3-4.4C9 8.4 10 9.2 11 9c1.4-.3 1-3.4 1-6z" /></>) },
-  { t: 'Crești — și haosul crește cu tine.', d: 'Fiecare client nou aduce muncă pentru tine, nu pentru sistem. Pentru că sistemul nu există.', icon: I(<><path d="M4 17l5-6 3.5 3.5L20 6" /><path d="M15 6h5v5" /></>) },
-  { t: 'Nu îți permiți să te îmbolnăvești.', d: 'O săptămână în pat și firma intră în cădere liberă. Concediu medical? Nu există pentru tine.', icon: I(<><path d="M12 20s-6.5-4.2-6.5-9A3.5 3.5 0 0 1 12 8.2 3.5 3.5 0 0 1 18.5 11c0 4.8-6.5 9-6.5 9z" /><path d="M12 8.5v4M10 10.5h4" /></>) },
-  { t: 'Oamenii buni pleacă.', d: 'Fără roluri și procese clare, cei capabili se sufocă. Rămân cei care așteaptă să le spui tu ce să facă.', icon: I(<><circle cx="9" cy="7" r="3" /><path d="M3 21v-1a5 5 0 0 1 8-4" /><path d="M15 11l4 3-4 3" /><path d="M19 14h-6" /></>) },
-  { t: 'Cifrele le afli la final de lună.', d: 'Conduci din instinct, nu din date. Problemele le vezi abia când se simt în cont.', icon: I(<><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M4 9h16M8 3v4M16 3v4M8 14l2.5 2.5L16 12" /></>) },
-  { t: 'Firma nu valorează nimic fără tine.', d: 'Vrei să scalezi, să atragi investiții sau să vinzi? O afacere care depinde de fondator nu e un activ — e un job.', icon: I(<><path d="M5 21V7l7-4 7 4v14" /><path d="M9 21v-5h6v5" /><path d="M9 11h.01M15 11h.01" /></>) },
+// Textele durerilor vin din stratul de conținut (durereStack.items, aceeași ordine); iconițele rămân aici.
+const ICONS: ReactNode[] = [
+  I(<><path d="M6.5 3.5h3l1.4 3.6-1.8 1.1a11 11 0 0 0 4.7 4.7l1.1-1.8 3.6 1.4v3a1.5 1.5 0 0 1-1.6 1.5A15 15 0 0 1 5 6.1 1.5 1.5 0 0 1 6.5 3.5z" /></>),
+  I(<><path d="M4 5h16l-6 7v6l-4-2v-4L4 5z" /></>),
+  I(<><path d="M12 3s5 3.2 5 8a5 5 0 0 1-10 0c0-2 .9-3.4 2.3-4.4C9 8.4 10 9.2 11 9c1.4-.3 1-3.4 1-6z" /></>),
+  I(<><path d="M4 17l5-6 3.5 3.5L20 6" /><path d="M15 6h5v5" /></>),
+  I(<><path d="M12 20s-6.5-4.2-6.5-9A3.5 3.5 0 0 1 12 8.2 3.5 3.5 0 0 1 18.5 11c0 4.8-6.5 9-6.5 9z" /><path d="M12 8.5v4M10 10.5h4" /></>),
+  I(<><circle cx="9" cy="7" r="3" /><path d="M3 21v-1a5 5 0 0 1 8-4" /><path d="M15 11l4 3-4 3" /><path d="M19 14h-6" /></>),
+  I(<><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M4 9h16M8 3v4M16 3v4M8 14l2.5 2.5L16 12" /></>),
+  I(<><path d="M5 21V7l7-4 7 4v14" /><path d="M9 21v-5h6v5" /><path d="M9 11h.01M15 11h.01" /></>),
 ]
 
 // parametrii stivei
@@ -36,6 +38,7 @@ const BLUR = 1.1
 const clamp = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v)
 
 export default function DurereStack() {
+  const c = useContent()
   const sceneRef = useRef<HTMLDivElement>(null)
   const reduce = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -111,8 +114,8 @@ export default function DurereStack() {
     <section id="durere" className="section ds" style={{ borderTop: '1px solid var(--line)' }}>
       <div className="container">
         <div style={{ maxWidth: 900, marginInline: 'auto', textAlign: 'center', marginBottom: 'clamp(8px,2vw,20px)' }}>
-          <div className="eyebrow reveal" style={{ marginBottom: 18 }}>Îți sună cunoscut?</div>
-          <h2 className="h-lg reveal" style={{ textWrap: 'balance' }}>Dacă te regăsești mai jos, îți recomand să vii. Dacă în mai multe — trebuie să vii.</h2>
+          <div className="eyebrow reveal" style={{ marginBottom: 18 }}>{c.durereStack.eyebrow}</div>
+          <h2 className="h-lg reveal" style={{ textWrap: 'balance' }}>{c.durereStack.headline}</h2>
         </div>
       </div>
 
@@ -127,16 +130,16 @@ export default function DurereStack() {
         </div>
 
         <div className="ds-stack container">
-          {DURERI.map((p, i) => (
+          {c.durereStack.items.map((p, i) => (
             <div key={i} className="ds-card" onPointerMove={onGlare}>
               <span className="ds-ghost" aria-hidden>{String(i + 1).padStart(2, '0')}</span>
               <div className="ds-card-in">
                 <div className="ds-top">
-                  <span className="ds-ico">{p.icon}</span>
-                  <span className="ds-idx">{String(i + 1).padStart(2, '0')} <span className="ds-idx-sep">/ 08</span></span>
+                  <span className="ds-ico">{ICONS[i]}</span>
+                  <span className="ds-idx">{String(i + 1).padStart(2, '0')} <span className="ds-idx-sep">/ {String(c.durereStack.items.length).padStart(2, '0')}</span></span>
                 </div>
-                <h3 className="ds-title">{p.t}</h3>
-                <p className="ds-desc">{p.d}</p>
+                <h3 className="ds-title">{p.title}</h3>
+                <p className="ds-desc">{p.desc}</p>
               </div>
             </div>
           ))}
@@ -146,8 +149,8 @@ export default function DurereStack() {
 
       <div className="container">
         <div className="reveal" style={{ marginTop: 'clamp(24px,4vw,44px)', maxWidth: 720, marginInline: 'auto', textAlign: 'center' }}>
-          <p className="lede" style={{ color: 'var(--text)' }}>Nu ți-a lipsit munca. Nu ți-a lipsit efortul.<br />Ți-a lipsit <em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>proiectul</em>.</p>
-          <a href="#metoda" className="btn-link" style={{ marginTop: 20, justifyContent: 'center' }}>Vezi cum se construiește corect
+          <p className="lede" style={{ color: 'var(--text)' }}><Rich text={c.durereStack.outro} accent={(chunk, i) => <em key={i} style={{ fontStyle: 'normal', color: 'var(--accent)' }}>{chunk}</em>} /></p>
+          <a href="#metoda" className="btn-link" style={{ marginTop: 20, justifyContent: 'center' }}>{c.durereStack.cta}
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M5 12h14M13 6l6 6-6 6" /></svg>
           </a>
         </div>

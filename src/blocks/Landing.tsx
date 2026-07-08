@@ -15,6 +15,8 @@ import { Magnetic, Tilt, RevealWords, Marquee, KenBurns } from '../fx/anim'
 import { ENROLL_URL } from '../lib/links'
 import Analytics from './Analytics'
 import Intelligence from './Intelligence'
+import { useContent } from '../content/ContentContext'
+import { Rich } from '../content/rich'
 
 /* ── primitive ──────────────────────────────────────────────────────── */
 const Arrow = ({ s = 16 }: { s?: number }) => (
@@ -38,6 +40,7 @@ function Head({ eyebrow, title, lede, max = 760 }: { eyebrow?: string; title: Re
 const NAV = [['Metoda', '#metoda'], ['Transformarea', '#transformare'], ['Cazuri', '#cazuri'], ['Victor', '#victor'], ['Pachete', '#pachete']]
 function Nav({ solid }: { solid: boolean }) {
   const [open, setOpen] = useState(false)
+  const c = useContent()
   return (
     <>
       <nav className={`nav${solid ? ' nav--solid' : ''}`}>
@@ -45,7 +48,7 @@ function Nav({ solid }: { solid: boolean }) {
           <a href="#top" style={{ fontFamily: 'var(--font-display)', fontSize: 15, letterSpacing: '0.12em', color: 'var(--text)' }}>ARHITECTURA AFACERII</a>
           <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
             {NAV.map(([l, h]) => <a key={l} href={h} className="nav-link">{l}</a>)}
-            <Magnetic href={ENROLL_URL} className="btn btn-ghost btn-sm" strength={0.5}>Înscrie-te</Magnetic>
+            <Magnetic href={ENROLL_URL} className="btn btn-ghost btn-sm" strength={0.5}>{c.nav.cta}</Magnetic>
           </div>
           <button className="nav-burger" aria-label="Meniu" onClick={() => setOpen(true)} style={{ display: 'none', background: 'none', border: 'none', flexDirection: 'column', gap: 5, cursor: 'pointer', padding: 6 }}>
             <span style={{ width: 22, height: 1.5, background: 'var(--text)' }} /><span style={{ width: 22, height: 1.5, background: 'var(--text)' }} /><span style={{ width: 22, height: 1.5, background: 'var(--text)' }} />
@@ -55,7 +58,7 @@ function Nav({ solid }: { solid: boolean }) {
       <div className="nav-drawer" style={{ position: 'fixed', inset: 0, zIndex: 120, background: 'rgba(14,10,6,0.97)', backdropFilter: 'blur(18px)', display: open ? 'flex' : 'none', flexDirection: 'column', justifyContent: 'center', gap: 22, padding: 'clamp(2rem,8vw,4rem)' }}>
         <button aria-label="Închide" onClick={() => setOpen(false)} style={{ position: 'absolute', top: 22, right: 22, background: 'none', border: 'none', color: 'var(--text)', fontSize: 30, cursor: 'pointer', lineHeight: 1 }}>×</button>
         {NAV.map(([l, h]) => <a key={l} href={h} onClick={() => setOpen(false)} style={{ fontSize: 30, fontWeight: 400, color: 'var(--text)' }}>{l}</a>)}
-        <a href={ENROLL_URL} onClick={() => setOpen(false)} className="btn btn-primary" style={{ alignSelf: 'flex-start', marginTop: 16 }}>Înscrie-te la program</a>
+        <a href={ENROLL_URL} onClick={() => setOpen(false)} className="btn btn-primary" style={{ alignSelf: 'flex-start', marginTop: 16 }}>{c.nav.ctaDrawer}</a>
       </div>
     </>
   )
@@ -70,39 +73,29 @@ const ETAPE = [
   { t: 'Predarea cheilor', d: 'Delegi responsabilitatea, nu sarcinile. Afacerea funcționează fără tine prezent.' },
   { t: 'Casa vie', d: 'O afacere completă, care merge înainte. Tu ești liber să construiești ce urmează.' },
 ]
-const CAZURI = [
-  { n: 'Daria', tag: 'FAST-FOOD', r: 'Rețea fast-food · 30+ angajați', q: 'Mă simțeam coșul de gunoi al firmei. Acum am organigramă și procese. Prima zi fără telefon a venit în săptămâna 6.' },
-  { n: 'Alina', tag: 'SERVICII', r: 'Salon · delegare reală', q: '7 ani fără concediu. Am delegat responsabilitatea, nu sarcinile. Anul ăsta — 10 zile de vacanță, telefon închis.' },
-  { n: 'Gheorghe', tag: 'PRODUCȚIE', r: 'Producție · 15 angajați', q: 'Creșterea se oprise. Cu tabloul de bord și KPI-uri clare, profitul a urcat cu 28% în primul trimestru.' },
-]
-const OBIECTII = [
-  { q: 'Cum mă înscriu?', a: 'Apeși pe „Înscrie-te" și primești direct detaliile înscrierii — pachetele, prețurile și pașii următori. Grupul e restrâns intenționat, iar locurile se ocupă în ordinea înscrierii.' },
-  { q: 'E pentru afacerea mea?', a: 'Programul e construit pentru afaceri active — cu clienți, cu angajați (sau pe cale să angajeze) — blocate în operațional: totul trece prin fondator. Dacă te-ai regăsit în situațiile de mai sus, e pentru tine. Mărimea sau domeniul nu contează; lipsa sistemului arată la fel peste tot.' },
-  { q: 'E prea scump', a: 'Înțeleg — și haosul costă lunar: ore pierdute, decizii amânate, creștere oprită. Gheorghe (producție, 15 angajați) și-a recuperat investiția în primul trimestru: +28% profit după ce a pus tabloul de bord. Programul se plătește o singură dată — sistemul rămâne.' },
-  { q: 'Nu am timp', a: '2–3 ore pe săptămână — mai puțin decât pierzi acum în haos într-o singură zi. Iar programul e construit exact pentru oameni fără timp: fiecare oră investită îți întoarce ore, pentru că predai din mers ce documentezi.' },
-  { q: 'Am mai cumpărat cursuri și nu m-au ajutat', a: 'Aceasta nu e un curs. E un practicum — construiești, nu consumi. La final ai documente completate pe firma ta, procese scrise și un sistem care funcționează. Dacă ai notițe frumoase și nimic schimbat, ai avut un curs. Aici e invers.' },
-  { q: 'Și dacă nu funcționează la mine?', a: 'Victor lucrează cu situația ta concretă, nu cu cazuri generice. Alina avea salon — „la mine nu se poate delega". După 8 săptămâni: prima vacanță în 7 ani, cu telefonul închis. Programul se aplică pe firma ta, în timp real.' },
-  { q: 'Pot face asta singur?', a: 'Poți. Victor a făcut-o singur — i-a luat ani și greșeli plătite scump. Asta e diferența dintre a construi fără proiect și a construi cu proiect: 3–5 ani, sau 8 săptămâni.' },
-]
+// Întrebările/obiectiile (FAQ) vin din stratul de conținut: src/content/default.json → faq.items
 
-/* ── BENTO „Ce primești" — fiecare card cu mini-vizual animat (Mercury) ── */
-const PRIMESTI_BENTO: { t: string; d: string; art: ReactNode; wide?: boolean }[] = [
-  { t: 'Lecții video, etapă cu etapă', d: 'Fiecare din cele 6 etape, filmată cu exemple reale din România și Moldova. Construiești în timp ce înveți.', art: <ArtVideo />, wide: true },
-  { t: 'Sesiuni live cu Victor', d: 'Grup restrâns, mentorul prezent. Întrebări reale, răspunsuri pe cazul tău.', art: <ArtLive /> },
-  { t: 'Apeluri 1-la-1', d: 'Cazul tău, firma ta, echipa ta. Diferențiat pe pachete.', art: <ArtCall /> },
-  { t: 'Șabloane gata de folosit', d: 'Organigrame, fișe de post, procese model — instant, completate pe firma ta.', art: <ArtDocs /> },
-  { t: 'Comunitate privată', d: 'Antreprenori reali. Peer learning, nu un curs solitar.', art: <ArtCommunity /> },
-  { t: 'Suport la implementare', d: 'Nu doar teorie — ajutor la fiecare pas pe care îl faci.', art: <ArtChecklist />, wide: true },
+/* ── BENTO „Ce primești" — fiecare card cu mini-vizual animat (Mercury) ──
+   Textele cardurilor vin din stratul de conținut (bento.items, în aceeași
+   ordine); arta + layoutul (wide) rămân aici. */
+const PRIMESTI_ART: { art: ReactNode; wide?: boolean }[] = [
+  { art: <ArtVideo />, wide: true },
+  { art: <ArtLive /> },
+  { art: <ArtCall /> },
+  { art: <ArtDocs /> },
+  { art: <ArtCommunity /> },
+  { art: <ArtChecklist />, wide: true },
 ]
 function Bento() {
+  const c = useContent()
   return (
     <Section>
-      <Head eyebrow="Ce primești — concret" title="Construiești, nu memorezi." lede="Nu un curs. Un practicum — cu tot ce-ți trebuie ca să aplici, etapă cu etapă." />
+      <Head eyebrow={c.bento.eyebrow} title={c.bento.headline} lede={c.bento.lede} />
       <div className="bento reveal-group tilt-scene">
-        {PRIMESTI_BENTO.map((c, i) => (
-          <Tilt key={i} max={5} className={`bento-card${c.wide ? ' wide' : ''}`}>
-            <div className="bento-art">{c.art}</div>
-            <div className="bento-text"><h3>{c.t}</h3><p>{c.d}</p></div>
+        {c.bento.items.map((it, i) => (
+          <Tilt key={i} max={5} className={`bento-card${PRIMESTI_ART[i]?.wide ? ' wide' : ''}`}>
+            <div className="bento-art">{PRIMESTI_ART[i]?.art}</div>
+            <div className="bento-text"><h3>{it.title}</h3><p>{it.desc}</p></div>
           </Tilt>
         ))}
       </div>
@@ -110,29 +103,85 @@ function Bento() {
   )
 }
 
-/* ── TESTIMONIAL rotativ (Mercury: card mare, citat + portret + tag) ──── */
-const TESTIMONIALS = [
-  { tag: 'BUSINESS · Fast-food', q: 'Mă simțeam coșul de gunoi al firmei — toate problemele veneau la mine. Acum am organigramă și procese scrise. Prima zi fără un singur telefon de la echipă a venit în săptămâna 6.', n: 'Daria', r: 'Rețea fast-food · 30+ angajați' },
-  { tag: 'BUSINESS · Producție', q: 'Creșterea se oprise — munceam mai mult, dar cifrele stăteau pe loc. Cu tabloul de bord și KPI-uri clare pe fiecare rol, profitul a urcat cu 28% în primul trimestru.', n: 'Gheorghe', r: 'Producție · 15 angajați' },
-  { tag: 'BUSINESS · Servicii', q: '7 ani fără concediu, pentru că totul depindea de mine. Am învățat să deleg responsabilitatea, nu sarcinile. Anul ăsta — 10 zile de vacanță, cu telefonul închis.', n: 'Alina', r: 'Salon · delegare reală' },
+/* ── TESTIMONIAL rotativ (Mercury: card mare, citat + portret + tag) ────
+   Testimoniale reale din practicum. Citatul e multi-paragraf; autoplay lent
+   + pauză la hover (ca să apuci să citești). */
+type Testi = { tag: string; q: string[]; n: string; r: string }
+const TESTIMONIALS: Testi[] = [
+  {
+    tag: 'Practicum Arhitectura Afacerii', n: 'Daniela', r: 'La jumătatea practicumului',
+    q: [
+      'Practicumul Arhitectura Afacerii mi-a schimbat complet modul în care privesc businessul. Am realizat că sistematizarea începe cu fundația companiei și cu oamenii potriviți.',
+      'Pe măsură ce am început să implementez ceea ce învăț, au rămas alături de mine și au început să apară oameni care împărtășesc aceeași viziune și aceleași valori. Astăzi înțeleg că acesta este primul pas spre construirea unei afaceri sănătoase.',
+      'Tema despre organigramă și matricea decizională a fost pentru mine o revelație. Am obținut o claritate extraordinară despre cum trebuie gestionată compania și, sincer, nu-mi vine să cred că am condus afacerea atâția ani fără aceste instrumente.',
+      'Sunt la jumătatea practicumului, implementez fiecare lecție și sunt convinsă că rezultatele pe care le voi obține vor fi extraordinare.',
+    ],
+  },
+  {
+    tag: 'Business · Florării', n: 'Ioan', r: 'Rețea de florării · spre franciză',
+    q: [
+      'Primele lecții din practicum mi-au arătat imediat unde sunt blocajele din afacerea mea. Mi-am clarificat inclusiv relația cu partenerul și acum mă pregătesc pentru următoarea etapă: scalarea.',
+      'Astăzi înțeleg exact ce trebuie construit pentru ca rețeaua mea de florării să poată deveni o franciză. Pentru prima dată am un plan clar și știu asupra căror aspecte trebuie să lucrez înainte de a crește.',
+    ],
+  },
+  {
+    tag: 'Practicum Arhitectura Afacerii', n: 'Ala', r: 'Construiește organigrama',
+    q: [
+      'Cel mai important lucru pe care l-am învățat este că, înainte de a sistematiza, trebuie să simplifici.',
+      'Am început deja să construiesc organigrama, lucrez constant la structura companiei și la organizarea echipei. Acum îmi este foarte clar care sunt primele angajări pe care trebuie să le fac și de ce.',
+      'Acest practicum mi-a schimbat modul de gândire și sunt convinsă că, implementând ceea ce învăț, afacerea mea va crește.',
+    ],
+  },
+  {
+    tag: 'Practicum Arhitectura Afacerii', n: 'Alexandru', r: 'Înainte de primele angajări',
+    q: [
+      'Chiar dacă încă nu am angajați, acest practicum m-a ajutat să înțeleg când trebuie făcut primul pas și cum trebuie construită echipa încă de la început.',
+      'Pentru mine este cea mai bună pregătire pe care o puteam primi înainte ca afacerea să înceapă să crească. Acum știu ce trebuie să construiesc din timp, astfel încât dezvoltarea companiei să nu fie bazată pe improvizație.',
+    ],
+  },
+  {
+    tag: 'Business · Barbershop', n: 'Ioan', r: 'Rețea de barbershop-uri · scalare',
+    q: [
+      'Am o rețea de barbershop-uri și acest practicum m-a ajutat să înțeleg de ce, la un moment dat, pierdeam specialiști valoroși.',
+      'Astăzi văd foarte clar ce trebuie schimbat pentru a construi o echipă stabilă și un sistem care îmi va permite să nu mă opresc la două locații, ci să dezvolt patru, cinci sau chiar mai multe.',
+      'Este unul dintre cele mai valoroase programe prin care am trecut.',
+    ],
+  },
+  {
+    tag: 'Practicum Arhitectura Afacerii', n: 'Drăgălina', r: 'Lucrează la fluxurile companiei',
+    q: [
+      'Acest practicum îmi schimbă complet modul de a privi afacerea.',
+      'Recunosc că implementarea nu este întotdeauna ușoară și uneori mă mișc mai lent, însă tocmai asta îmi oferă claritate. Am început să lucrez serios la fluxurile companiei și, pentru prima dată, înțeleg cu adevărat procesele din businessul meu.',
+      'Am realizat un lucru foarte important: ceea ce nu cunoști nu poți îmbunătăți. Iar acest practicum exact asta face — îți oferă claritatea de care ai nevoie pentru a construi o companie care funcționează prin sisteme.',
+    ],
+  },
 ]
 function FeaturedTestimonial() {
   const [i, setI] = useState(0)
+  const [paused, setPaused] = useState(false)
   useEffect(() => {
-    const id = setInterval(() => setI((p) => (p + 1) % TESTIMONIALS.length), 6500)
+    if (paused) return
+    const id = setInterval(() => setI((p) => (p + 1) % TESTIMONIALS.length), 9000)
     return () => clearInterval(id)
-  }, [])
+  }, [paused])
   const t = TESTIMONIALS[i]
   return (
-    <div className="reveal" style={{ border: '1px solid var(--line)', borderRadius: 'var(--r-lg)', background: 'var(--surface)', padding: 'clamp(28px,4.5vw,56px)', marginBottom: 'clamp(32px,5vw,56px)', overflow: 'hidden' }}>
+    <div className="reveal" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
+      style={{ border: '1px solid var(--line)', borderRadius: 'var(--r-lg)', background: 'var(--surface)', padding: 'clamp(28px,4.5vw,56px)', marginBottom: 'clamp(32px,5vw,56px)', overflow: 'hidden' }}>
       <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 22 }}>{t.tag}</div>
-      <p key={i} className="h quote-in" style={{ minHeight: '3.2em', maxWidth: 880, fontWeight: 400 }}>„{t.q}"</p>
+      <div key={i} className="quote-in" style={{ maxWidth: 840 }}>
+        {t.q.map((para, pi) => (
+          <p key={pi} style={{ fontSize: 'clamp(15px,1.9vw,19px)', lineHeight: 1.6, color: 'var(--text)', marginBottom: pi < t.q.length - 1 ? 14 : 0 }}>
+            {pi === 0 ? '„' : ''}{para}{pi === t.q.length - 1 ? '”' : ''}
+          </p>
+        ))}
+      </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'clamp(24px,3vw,36px)', flexWrap: 'wrap', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--accent-soft)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontSize: 17, flexShrink: 0 }}>{t.n[0]}</span>
           <div><div style={{ fontSize: 15 }}>{t.n}</div><div className="muted" style={{ fontSize: 13 }}>{t.r}</div></div>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {TESTIMONIALS.map((_, k) => (
             <button key={k} aria-label={`Testimonial ${k + 1}`} onClick={() => setI(k)} style={{ width: k === i ? 26 : 9, height: 9, borderRadius: 6, border: 'none', cursor: 'pointer', background: k === i ? 'var(--accent)' : 'var(--line-hi)', transition: 'width .35s ease, background .35s ease' }} />
           ))}
@@ -142,26 +191,24 @@ function FeaturedTestimonial() {
   )
 }
 
-/* ── TRUST — bloc contrast, „de ce funcționează" (Mercury security) ───── */
-const TRUST = [
-  { art: <TrustExperience />, t: 'Construit pe 18 ani reali', d: 'Nu teorie de pe internet — sistemul prin care Victor conduce azi 5 companii cu 250+ oameni, fără să fie indispensabil în niciuna.' },
-  { art: <TrustApplied />, t: 'Aplicat pe firma ta', d: 'Lucrezi pe cazul tău concret, nu pe studii de caz generice. Ieși cu documente, procese și un tablou de bord — nu cu notițe.' },
-  { art: <TrustSystem />, t: 'Sistem, nu motivație', d: 'Rezultatul rămâne după ce se termină programul: o competență de sistematizare pe care o aplici la orice afacere, de acum înainte.' },
-]
+/* ── TRUST — bloc contrast, „de ce funcționează" (Mercury security) ─────
+   Textele vin din stratul de conținut (trust.items, aceeași ordine); arta aici. */
+const TRUST_ART: ReactNode[] = [<TrustExperience />, <TrustApplied />, <TrustSystem />]
 function Trust() {
+  const c = useContent()
   return (
     <Section>
       <div className="trust reveal">
         <div style={{ maxWidth: 620 }}>
-          <div className="eyebrow" style={{ marginBottom: 18 }}>De ce funcționează</div>
-          <h2 className="h-lg">Cursurile obișnuite se opresc la teorie. Aici construiești.</h2>
+          <div className="eyebrow" style={{ marginBottom: 18 }}>{c.trust.eyebrow}</div>
+          <h2 className="h-lg">{c.trust.headline}</h2>
         </div>
         <div className="trust-grid reveal-group">
-          {TRUST.map((c, i) => (
+          {c.trust.items.map((it, i) => (
             <div key={i}>
-              <div className="trust-art">{c.art}</div>
-              <h3 className="h-sm" style={{ marginBottom: 10, fontWeight: 400 }}>{c.t}</h3>
-              <p className="muted" style={{ fontSize: 15, lineHeight: 1.55 }}>{c.d}</p>
+              <div className="trust-art">{TRUST_ART[i]}</div>
+              <h3 className="h-sm" style={{ marginBottom: 10, fontWeight: 400 }}>{it.title}</h3>
+              <p className="muted" style={{ fontSize: 15, lineHeight: 1.55 }}>{it.desc}</p>
             </div>
           ))}
         </div>
@@ -172,12 +219,12 @@ function Trust() {
 
 /* ── BLOC 2 — „Imaginează-ți" (viziunea, centrat, rânduri echilibrate) ── */
 function Imagineaza() {
-  const Acc = ({ children }: { children: ReactNode }) => <span style={{ color: 'var(--accent)' }}>{children}</span>
+  const c = useContent()
   return (
     <Section top>
       <div className="reveal" style={{ textAlign: 'center', maxWidth: 880, margin: '0 auto' }}>
         <p className="balance" style={{ fontSize: 'clamp(23px,3.2vw,36px)', fontWeight: 400, lineHeight: 1.42, letterSpacing: '-0.005em' }}>
-          Imaginează-ți o zi în care ai <Acc>luxul să nu pleci la oficiu</Acc> — fără grija că fără tine lucrurile vor merge prost. <Acc>Ai timp</Acc> să iei decizii strategice, să petreci cu familia, <Acc>să ai grijă de tine și de sănătatea ta</Acc>.
+          <Rich text={c.imagineaza.text} accent={(chunk, i) => <span key={i} style={{ color: 'var(--accent)' }}>{chunk}</span>} />
         </p>
       </div>
     </Section>
@@ -186,38 +233,25 @@ function Imagineaza() {
 
 /* ── CINEMATIC STATEMENT — fundal AI (Ken-Burns) + o singură frază ───── */
 function CinematicStatement() {
+  const c = useContent()
   return (
     <section className="section" style={{ position: 'relative', overflow: 'hidden', borderTop: '1px solid var(--line)' }}>
       <KenBurns src="/atmos/build.jpg" />
       <div className="grain" aria-hidden />
       <div className="container" style={{ position: 'relative', zIndex: 1, textAlign: 'center', minHeight: '34vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <RevealWords as="h2" className="display" text="O afacere se construiește o singură dată." />
-        <p className="lede" style={{ margin: '20px auto 0', maxWidth: 560, color: 'rgba(241,234,217,0.86)' }}>Hai s-o construim corect — cu proiect, nu pe ghicite.</p>
+        <RevealWords as="h2" className="display" text={c.cinematic.headline} />
+        <p className="lede" style={{ margin: '20px auto 0', maxWidth: 560, color: 'rgba(241,234,217,0.86)' }}>{c.cinematic.lede}</p>
       </div>
     </section>
   )
 }
 
 function Cazuri() {
+  const c = useContent()
   return (
     <Section id="cazuri">
-      <Head eyebrow="Cazuri reale" title="Oameni reali. Situații reale." lede="Antreprenori care au trecut prin cele 8 săptămâni — și ce s-a schimbat concret." />
+      <Head eyebrow={c.cazuri.eyebrow} title={c.cazuri.headline} lede={c.cazuri.lede} />
       <FeaturedTestimonial />
-      <div className="reveal-group" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,280px),1fr))', gap: 20 }}>
-        {CAZURI.map((c, i) => (
-          <div key={i} className="card-lift" style={{ borderTop: '1px solid var(--line)', paddingTop: 24, display: 'flex', flexDirection: 'column', minHeight: 240 }}>
-            <p style={{ flex: 1, fontSize: 16, lineHeight: 1.55, color: 'var(--text)' }}>„{c.q}"</p>
-            <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--accent-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)', fontSize: 14, flexShrink: 0 }}>{c.n[0]}</div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14 }}>{c.n}</div>
-                <div style={{ fontSize: 12, color: 'var(--text-faint)' }}>{c.r}</div>
-              </div>
-              <span style={{ fontSize: 11, letterSpacing: '0.06em', color: 'var(--accent)' }}>{c.tag}</span>
-            </div>
-          </div>
-        ))}
-      </div>
     </Section>
   )
 }
@@ -249,11 +283,12 @@ function Victor() {
 
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0)
+  const c = useContent()
   return (
     <Section id="intrebari">
-      <Head eyebrow="Întrebări" title="Întrebările pe care ți le pui acum." max={680} />
+      <Head eyebrow={c.faq.eyebrow} title={c.faq.headline} max={680} />
       <div className="reveal">
-        {OBIECTII.map((o, i) => {
+        {c.faq.items.map((o, i) => {
           const on = open === i
           return (
             <div key={i} style={{ borderTop: '1px solid var(--line)' }}>
@@ -273,6 +308,7 @@ function FAQ() {
 }
 
 function Footer() {
+  const c = useContent()
   const COLS = [
     { h: 'Program', l: [['Metoda', '#metoda'], ['Transformarea', '#transformare'], ['Platforma', '#platforma'], ['Pachete', '#pachete']] },
     { h: 'Despre', l: [['Victor Morar', '#victor'], ['Cazuri reale', '#cazuri'], ['Întrebări', '#intrebari'], ['Înscriere', ENROLL_URL]] },
@@ -284,7 +320,7 @@ function Footer() {
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px,1fr) repeat(3, auto)', gap: 'clamp(32px,5vw,64px)', alignItems: 'start', flexWrap: 'wrap' }} className="footer-grid">
           <div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, letterSpacing: '0.1em', marginBottom: 14 }}>ARHITECTURA<br />AFACERII</div>
-            <p className="muted" style={{ fontSize: 13, maxWidth: 240 }}>Practicum de sistematizare. 6 etape, 8 săptămâni, livrabile reale.</p>
+            <p className="muted" style={{ fontSize: 13, maxWidth: 240 }}>{c.footer.tagline}</p>
           </div>
           {COLS.map(col => (
             <div key={col.h}>
@@ -306,19 +342,20 @@ function Footer() {
 
 /* ── compunere ──────────────────────────────────────────────────────── */
 export default function Landing({ navSolid }: { navSolid: boolean }) {
+  const c = useContent()
   return (
     <>
       <Nav solid={navSolid} />
       <HeroVideos />
       <div style={{ borderBottom: '1px solid var(--line)', background: 'var(--surface)', paddingBlock: 20 }}>
-        <Marquee items={['Proiect, nu improvizație', '6 etape', '8 săptămâni', 'Livrabile reale, nu notițe', 'Aplici pe firma ta', 'Mentor prezent', 'Grup restrâns']} />
+        <Marquee items={c.marquee} />
       </div>
       <main>
         {/* Ordinea de încălzire: viziune → durere → soluție → dovadă → produs → ofertă */}
         <Imagineaza />
         <DurereStack />
         <Section id="metoda">
-          <Head eyebrow="Metoda" title="O afacere se construiește ca o casă." lede="Nimeni normal la cap nu construiește o casă fără proiect. Cele 6 etape, în ordinea exactă în care se ridică un business — derulează." />
+          <Head eyebrow={c.metoda.eyebrow} title={c.metoda.headline} lede={c.metoda.lede} />
         </Section>
         <EtapeFilm items={ETAPE} />
         <Analytics />

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useInView } from '../fx/motion'
 import DeviceScroll from './DeviceScroll'
 import { ENROLL_URL } from '../lib/links'
+import { useContent } from '../content/ContentContext'
 
 const Diamond = ({ s = 14, c = 'var(--accent)' }: { s?: number; c?: string }) => (
   <svg width={s} height={s} viewBox="0 0 24 24" fill="none"><path d="M12 2 L22 12 L12 22 L2 12 Z" stroke={c} strokeWidth="1.6" /></svg>
@@ -26,6 +27,7 @@ const QA = [
   { q: 'Unde se blochează cel mai des comenzile?', a: 'La aprobarea livrării — 2 zile pierdute în medie. Procesul îți arată exact pasul și responsabilul.' },
 ]
 function CardQA({ inView }: { inView: boolean }) {
+  const c = useContent()
   const [i, setI] = useState(0)
   useEffect(() => {
     const id = setInterval(() => setI((p) => (p + 1) % QA.length), 4200)
@@ -56,8 +58,8 @@ function CardQA({ inView }: { inView: boolean }) {
         </div>
       </div>
       <div style={TITLE}>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--text)', marginBottom: 8 }}>Întrebări în limbaj natural</div>
-        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(241,234,217,0.65)', margin: 0 }}>Întrebi despre afacerea ta în limbaj simplu și primești răspunsuri instant, pe datele tale.</p>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--text)', marginBottom: 8 }}>{c.intelligence.cards[0].title}</div>
+        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(241,234,217,0.65)', margin: 0 }}>{c.intelligence.cards[0].desc}</p>
       </div>
     </div>
   )
@@ -65,6 +67,7 @@ function CardQA({ inView }: { inView: boolean }) {
 
 /* ── CARD 2 — chart predictiv cu wipe ─────────────────────────────────── */
 function CardChart({ inView }: { inView: boolean }) {
+  const c = useContent()
   return (
     <div className={`intel-card${inView ? ' in' : ''}`} style={{ ...CARD, transitionDelay: '0.35s' }}>
       <img src="/atmos/build.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
@@ -93,8 +96,8 @@ function CardChart({ inView }: { inView: boolean }) {
         </div>
       </div>
       <div style={TITLE}>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--text)', marginBottom: 8 }}>Analiză predictivă</div>
-        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(241,234,217,0.65)', margin: 0 }}>Sistemul citește tiparele și anticipează unde crește — și unde se blochează — afacerea ta.</p>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--text)', marginBottom: 8 }}>{c.intelligence.cards[1].title}</div>
+        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(241,234,217,0.65)', margin: 0 }}>{c.intelligence.cards[1].desc}</p>
       </div>
     </div>
   )
@@ -116,6 +119,7 @@ function OrgNode({ x, y, w, h, label, sub, cls }: { x: number; y: number; w: num
   )
 }
 function CardOrg({ inView }: { inView: boolean }) {
+  const c = useContent()
   return (
     <div className={`intel-card${inView ? ' in' : ''}`} style={{ ...CARD, transitionDelay: '0.5s' }}>
       <img src="/atmos/key.jpg" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
@@ -140,14 +144,15 @@ function CardOrg({ inView }: { inView: boolean }) {
         </svg>
       </div>
       <div style={TITLE}>
-        <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--text)', marginBottom: 8 }}>Organigrama automată</div>
-        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(241,234,217,0.65)', margin: 0 }}>Structura firmei tale, mereu la zi — cine răspunde de ce, până la ultimul detaliu.</p>
+        <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: 'var(--text)', marginBottom: 8 }}>{c.intelligence.cards[2].title}</div>
+        <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(241,234,217,0.65)', margin: 0 }}>{c.intelligence.cards[2].desc}</p>
       </div>
     </div>
   )
 }
 
 export default function Intelligence() {
+  const c = useContent()
   const [ref, inView] = useInView<HTMLDivElement>()
   return (
     <section id="platforma" style={{ background: 'var(--abyss)', paddingBlock: 'clamp(40px,6vw,64px) clamp(72px,10vw,110px)', overflow: 'hidden' }}>
@@ -157,13 +162,13 @@ export default function Intelligence() {
         alt="Platforma Arhitectura Afacerii — lecții, progres, documente și live-uri"
         title={
           <div ref={ref} style={{ paddingInline: 'clamp(20px,5vw,40px)', paddingBottom: 'clamp(28px,4vw,44px)' }}>
-            <div className="eyebrow" style={{ marginBottom: 16 }}>Platforma · doar pentru elevi</div>
+            <div className="eyebrow" style={{ marginBottom: 16 }}>{c.intelligence.eyebrow}</div>
             <h2 className={`ana-h${inView ? ' in' : ''}`} style={{ margin: 0 }}>
-              <span className="h-lg" style={{ display: 'block' }}>Sistemul tău,</span>
-              <span className="h-lg" style={{ display: 'block', color: 'var(--accent)' }}>într-un singur loc.</span>
+              <span className="h-lg" style={{ display: 'block' }}>{c.intelligence.headline1}</span>
+              <span className="h-lg" style={{ display: 'block', color: 'var(--accent)' }}>{c.intelligence.headline2}</span>
             </h2>
             <p className={`ana-sub${inView ? ' in' : ''}`} style={{ fontSize: 16, color: 'var(--text-dim)', marginTop: 16, maxWidth: 560, marginInline: 'auto' }}>
-              Instrumentele cu care construiești — inteligente, mereu la îndemână.
+              {c.intelligence.sub}
             </p>
           </div>
         }

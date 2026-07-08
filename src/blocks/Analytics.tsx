@@ -5,6 +5,7 @@
  * flux (fără suprapunere). Fundaluri = imaginile noastre AI.
  */
 import { useInView, useCountUp } from '../fx/motion'
+import { useContent } from '../content/ContentContext'
 
 const Arrow = ({ s = 14 }: { s?: number }) => (
   <svg width={s} height={s} viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -25,6 +26,7 @@ function Bar({ label, value, pct, fill, delay }: { label: string; value: string;
 }
 
 export default function Analytics() {
+  const c = useContent()
   const [ref, inView] = useInView<HTMLDivElement>()
   const ore = useCountUp(142, inView)
   const proc = useCountUp(24, inView)
@@ -32,13 +34,13 @@ export default function Analytics() {
   return (
     <section style={{ background: 'var(--abyss)', paddingBlock: 'clamp(72px,10vw,110px)', overflow: 'hidden' }}>
       <div ref={ref} style={{ textAlign: 'center', marginBottom: 'clamp(40px,6vw,64px)', paddingInline: 'clamp(20px,5vw,40px)' }}>
-        <div className="eyebrow" style={{ marginBottom: 16 }}>Tabloul de bord</div>
+        <div className="eyebrow" style={{ marginBottom: 16 }}>{c.analytics.eyebrow}</div>
         <h2 className={`ana-h${inView ? ' in' : ''}`} style={{ margin: 0 }}>
-          <span className="h-lg" style={{ display: 'block' }}>Toată afacerea ta,</span>
-          <span className="h-lg" style={{ display: 'block', color: 'var(--accent)' }}>dintr-o privire.</span>
+          <span className="h-lg" style={{ display: 'block' }}>{c.analytics.headline1}</span>
+          <span className="h-lg" style={{ display: 'block', color: 'var(--accent)' }}>{c.analytics.headline2}</span>
         </h2>
         <p className={`ana-sub${inView ? ' in' : ''}`} style={{ fontSize: 16, color: 'var(--text-dim)', marginTop: 16, maxWidth: 520, marginInline: 'auto' }}>
-          Conduci din cifre, nu din telefoane. Datele vin la tine — în timp real.
+          {c.analytics.sub}
         </p>
       </div>
 
@@ -60,9 +62,9 @@ export default function Analytics() {
             <Bar label="Timp pentru tine" value="3 zile / săpt." pct={45} fill="linear-gradient(90deg, #F1EAD9 52%, rgba(241,234,217,0) 100%)" delay={0.44} />
           </div>
           <div className="ana-foot">
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, color: 'var(--text)', marginBottom: 8 }}>Vezi tabloul complet al afacerii.</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, color: 'var(--text)', marginBottom: 8 }}>{c.analytics.card1Title}</div>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(241,234,217,0.65)', margin: 0, maxWidth: 460 }}>
-              Sistemul îți ține vânzările, procesele și obiectivele aliniate — o imagine clară a ritmului afacerii tale, decizii mai bune, stabilitate.
+              {c.analytics.card1Body}
             </p>
           </div>
         </div>
@@ -86,9 +88,9 @@ export default function Analytics() {
             </div>
           </div>
           <div className="ana-foot">
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--text)', marginBottom: 8 }}>Fiecare proces, documentat.</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, color: 'var(--text)', marginBottom: 8 }}>{c.analytics.card2Title}</div>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: 'rgba(241,234,217,0.65)', margin: 0 }}>
-              Vizibilitate reală asupra a ce se întâmplă în firmă — cine, ce, când, fără să întrebi.
+              {c.analytics.card2Body}
             </p>
           </div>
         </div>
