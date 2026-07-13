@@ -7,7 +7,7 @@
  */
 import { useRef, useState } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
-import { ENROLL_URL } from '../lib/links'
+import { PAY, type PlanKey } from '../lib/links'
 import { useContent } from '../content/ContentContext'
 
 const AVANS = 199 // avansul de rezervare (ambele pachete)
@@ -35,11 +35,11 @@ function PlanMark({ gold }: { gold: boolean }) {
 }
 
 type Feat = { t: string; on: boolean }
-type Plan = { name: string; price: number; sub: string; feats: Feat[]; featured?: boolean; badge?: string; note?: string; gold?: boolean }
+type Plan = { key: PlanKey; name: string; price: number; sub: string; feats: Feat[]; featured?: boolean; badge?: string; note?: string; gold?: boolean }
 
 const PLANS: Plan[] = [
   {
-    name: 'Business Designer', price: 889, sub: 'Programul complet + mentorat de grup, cu Victor prezent.', featured: true, badge: 'Recomandat', gold: false,
+    key: 'designer', name: 'Business Designer', price: 889, sub: 'Programul complet + mentorat de grup, cu Victor prezent.', featured: true, badge: 'Recomandat', gold: false,
     feats: [
       { t: 'Programa completă — 6 etape', on: true },
       { t: '4 workshop-uri live cu Victor', on: true },
@@ -50,7 +50,7 @@ const PLANS: Plan[] = [
     ],
   },
   {
-    name: 'Business Arhitect', price: 1349, sub: 'Tot, plus atenția 1-la-1 a lui Victor pe firma ta.', note: 'Doar 5 locuri', gold: true,
+    key: 'arhitect', name: 'Business Arhitect', price: 1349, sub: 'Tot, plus atenția 1-la-1 a lui Victor pe firma ta.', note: 'Doar 5 locuri', gold: true,
     feats: [
       { t: 'Programa completă — 6 etape', on: true },
       { t: '4 workshop-uri live cu Victor', on: true },
@@ -123,8 +123,10 @@ export default function Pricing() {
                 </div>
                 <p className="pr-sub">{p.sub}</p>
                 <div className="pr-actions">
-                  <a href={ENROLL_URL} className="btn btn-primary" style={{ width: '100%' }}>Achită integral · {p.price} €</a>
-                  <a href={ENROLL_URL} className="btn btn-ghost" style={{ width: '100%' }}>Plătește avansul · {AVANS} €</a>
+                  {inst
+                    ? <a href={PAY[p.key].rata} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ width: '100%' }}>Plătește rata · {fmt(p.price / 2)} €</a>
+                    : <a href={PAY[p.key].integral} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ width: '100%' }}>Achită integral · {p.price} €</a>}
+                  <a href={PAY[p.key].avans} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{ width: '100%' }}>Plătește avansul · {AVANS} €</a>
                 </div>
                 <ul className="pr-feats">
                   {p.feats.map((f, i) => (
