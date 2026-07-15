@@ -1,80 +1,83 @@
-/**
- * ContentContext — stratul de conținut personalizabil per-prospect.
- *
- * - fără `?v=` → conținutul default e furnizat SINCRON (zero gate, zero
- *   regresie pentru traficul normal).
- * - `?v=<slug>` (validat /^[a-z0-9-]{1,64}$/) → NU randăm nimic până când
- *   public/variants/<slug>.json e încărcat și deep-merge-uit peste default;
- *   la 404/eroare → console.warn + default.
- *
- * IMPORTANT (animații): tot ce măsoară/împarte text la mount (reveal-uri,
- * DurereStack care măsoară top-urile cardurilor, scroll-handlers, Lenis din
- * App) trăiește SUB provider — copiii se montează abia după ce conținutul
- * final există, deci toate animațiile se inițializează pe textul final.
- */
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import defaultContent from './default.json'
 
-export type Content = typeof defaultContent
+/**
+ * Stratul de conținut — versiunea SUPABASE (Lovable nativ), TypeScript.
+ * Variantele se citesc LIVE din view-ul `landing_variants_public` (scris de edge
+ * function-ul generate-landing). Fără redeploy.
+ *
+ * ⚙️ COMPLETEAZĂ cele două constante cu valorile proiectului Supabase AL QUIZULUI
+ * (Supabase → Project Settings → API). Direct aici, NU ca variabile de mediu — Lovable
+ * nu expune VITE_ pentru frontend; cheia anon/publishable e publică (sigură în bundle).
+ */
+const SUPABASE_URL = 'https://mfgsmjqvcwhspbsvqaam.supabase.co'   // ← URL-ul Supabase al quizului
+const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1mZ3NtanF2Y3doc3Bic3ZxYWFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MDIwMTAsImV4cCI6MjA5MDM3ODAxMH0.4uRBv-4oyGwpUC3rrCpJXYxIlJqt4nbwHxMaXuWc0tc'      // ← anon / publishable key (publică)
 
-const Ctx = createContext<Content>(defaultContent)
-
+type Content = typeof defaultContent
+const ContentContext = createContext<Content>(defaultContent)
 export function useContent(): Content {
-  return useContext(Ctx)
+  return useContext(ContentContext)
 }
 
 const SLUG_RE = /^[a-z0-9-]{1,64}$/
 
 function variantSlug(): string | null {
+  if (typeof window === 'undefined') return null
   const v = new URLSearchParams(window.location.search).get('v')
   return v && SLUG_RE.test(v) ? v : null
 }
 
-const isObj = (x: unknown): x is Record<string, unknown> =>
-  typeof x === 'object' && x !== null && !Array.isArray(x)
+const isPlainObject = (v: unknown): v is Record<string, unknown> =>
+  v !== null && typeof v === 'object' && !Array.isArray(v)
 
-/** obiectele se combină recursiv; array-urile și scalarii se înlocuiesc integral; cheile `_*` se sar */
-function deepMerge<T>(base: T, patch: unknown): T {
-  if (!isObj(base)) return (patch === undefined ? base : patch) as T
-  if (!isObj(patch)) return base
-  const out: Record<string, unknown> = { ...(base as Record<string, unknown>) }
-  for (const k of Object.keys(patch)) {
-    if (k.startsWith('_')) continue
-    out[k] = k in out ? deepMerge(out[k], patch[k]) : patch[k]
+function deepMerge(base: any, override: any): any {
+  if (!isPlainObject(base) || !isPlainObject(override)) return override
+  const out: any = { ...base }
+  for (const [key, value] of Object.entries(override)) {
+    if (key.startsWith('_')) continue
+    out[key] = deepMerge(base[key], value)
   }
-  return out as T
+  return out
+}
+
+async function fetchVarianta(slug: string): Promise<any | null> {
+  if (SUPABASE_URL.includes('PROIECTUL-TAU') || ANON.includes('PUNE-CHEIA')) {
+    console.warn('[content] Completează SUPABASE_URL și ANON în ContentContext — rămân pe implicit.')
+    return null
+  }
+  const url = `${SUPABASE_URL}/rest/v1/landing_variants_public?slug=eq.${encodeURIComponent(slug)}&select=patch,status`
+  const res = await fetch(url, { headers: { apikey: ANON, Authorization: `Bearer ${ANON}` } })
+  if (!res.ok) throw new Error(`Supabase ${res.status}`)
+  const rows = await res.json()
+  const rand = rows[0]
+  if (!rand || rand.status !== 'done' || !rand.patch) return null
+  return rand.patch
 }
 
 export function ContentProvider({ children }: { children: ReactNode }) {
-  // fără variantă → default imediat (sincron); cu variantă → null până la fetch
-  const [content, setContent] = useState<Content | null>(() => (variantSlug() ? null : defaultContent))
+  const [slug] = useState(variantSlug)
+  const [content, setContent] = useState<Content | null>(() => (slug ? null : defaultContent))
 
   useEffect(() => {
-    const slug = variantSlug()
     if (!slug) return
-    let alive = true
-    fetch(import.meta.env.BASE_URL + 'variants/' + slug + '.json')
-      .then((r) => {
-        if (!r.ok) throw new Error('HTTP ' + r.status)
-        return r.json()
-      })
+    let cancelled = false
+    fetchVarianta(slug)
       .then((patch) => {
-        if (alive) setContent(deepMerge(defaultContent, patch))
+        if (cancelled) return
+        setContent(patch ? deepMerge(defaultContent, patch) : defaultContent)
       })
       .catch((err) => {
-        console.warn(`[content] varianta „${slug}" nu s-a putut încărca — folosesc conținutul default.`, err)
-        if (alive) setContent(defaultContent)
+        console.warn(`[content] Varianta „${slug}" nu s-a încărcat — rămân pe implicit.`, err)
+        if (!cancelled) setContent(defaultContent)
       })
-    return () => {
-      alive = false
-    }
-  }, [])
+    return () => { cancelled = true }
+  }, [slug])
 
   useEffect(() => {
-    const title = content?.meta?.title
-    if (title && document.title !== title) document.title = title
+    const title = (content as any)?.meta?.title
+    if (title && title !== document.title) document.title = title
   }, [content])
 
   if (!content) return null
-  return <Ctx.Provider value={content}>{children}</Ctx.Provider>
+  return <ContentContext.Provider value={content}>{children}</ContentContext.Provider>
 }
