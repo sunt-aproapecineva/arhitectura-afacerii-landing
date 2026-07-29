@@ -1,0 +1,141 @@
+{
+  "heroVideos": {
+    "headlineLine1": "Hai să construim o afacere,",
+    "headlineLine2": "care îți oferă",
+    "rotatingWords": [
+      "timp",
+      "libertate",
+      "vacanțe"
+    ],
+    "subheadline": "În 8 săptămâni alături de mine construiești sistemul care lipsea prima dată când ai încercat să delegi — ca afacerea să crească, fără ca haosul să crească odată cu ea."
+  },
+  "imagineaza": {
+    "text": "Imaginează-ți o zi în care ai [[timp pentru sport]] — fără grija că, dacă pleci, firma se oprește. [[Ai liniște]] să crești vânzările, să pleci în vacanță fără telefon, [[să ai grijă de tine, nu doar de firmă]]."
+  },
+  "durereStack": {
+    "items": [
+      {
+        "title": "Telefonul sună și în vacanță.",
+        "desc": "Dacă nu răspunzi tu, se oprește tot. Nu mai pleci nicăieri — sau pleci cu laptopul."
+      },
+      {
+        "title": "Ai încercat să delegi — tot la tine ajunge.",
+        "desc": "Ai lăsat o sarcină din mână — și a revenit la tine, refăcută chiar de tine. Așa ai renunțat să mai încerci."
+      },
+      {
+        "title": "Stingi incendii toată ziua.",
+        "desc": "Pentru strategie, creștere, viață — nu mai rămâne nimic."
+      },
+      {
+        "title": "Crești — și haosul crește cu tine.",
+        "desc": "Vrei să dublezi cifra — dar fără sistem, dublezi și haosul. Fiecare client nou vine cu muncă pentru tine, nu pentru un proces."
+      },
+      {
+        "title": "Nu îți permiți să te îmbolnăvești.",
+        "desc": "Ai renunțat la sport pentru firmă și simți că viața trece cât timp tu răspunzi la mesaje. O zi de pauză, și simți că totul se oprește."
+      },
+      {
+        "title": "Oamenii buni pleacă.",
+        "desc": "Fără roluri și procese clare, cei capabili se sufocă. Rămân cei care așteaptă să le spui tu ce să facă."
+      },
+      {
+        "title": "Cifrele le afli la final de lună.",
+        "desc": "Conduci din instinct, nu din date. Problemele le vezi abia când se simt în cont."
+      },
+      {
+        "title": "Firma nu valorează nimic fără tine.",
+        "desc": "Vrei să scalezi, să atragi investiții sau să vinzi? O afacere care depinde de fondator nu e un activ — e un job."
+      }
+    ],
+    "outro": "Nu ți-a lipsit dorința de a delega. Nu ți-a lipsit efortul.\nȚi-a lipsit [[proiectul]]."
+  },
+  "durere": {
+    "items": [
+      {
+        "title": "Telefonul sună și în vacanță.",
+        "desc": "Dacă nu răspunzi tu, se oprește tot. Așa că nu mai pleci nicăieri — sau pleci cu laptopul."
+      },
+      {
+        "title": "Ai încercat să delegi — dar tot la tine ajunge.",
+        "desc": "Ai lăsat o sarcină din mână — și a revenit la tine, refăcută chiar de tine. Ai încercat să delegi; s-a întors tot pe biroul tău."
+      },
+      {
+        "title": "Stingi incendii toată ziua.",
+        "desc": "Pentru lucrurile cu adevărat importante — strategie, creștere, viață — nu mai rămâne nimic."
+      },
+      {
+        "title": "Crești — și haosul crește odată cu tine.",
+        "desc": "Vrei să dublezi cifra — dar fără sistem, dublezi și haosul. Fiecare client nou vine cu muncă pentru tine, nu pentru un proces."
+      },
+      {
+        "title": "Nu îți permiți să te îmbolnăvești.",
+        "desc": "Ai renunțat la sport pentru firmă și simți că viața trece cât timp tu răspunzi la mesaje. O zi de pauză, și simți că totul se oprește."
+      },
+      {
+        "title": "Oamenii buni pleacă.",
+        "desc": "Fără roluri și procese clare, cei capabili se sufocă în haos. Rămân cei care așteaptă să le spui tu ce să facă."
+      },
+      {
+        "title": "Cifrele le afli la final de lună. Sau deloc.",
+        "desc": "Conduci din instinct, nu din date. Problemele le vezi abia când se simt în cont."
+      },
+      {
+        "title": "Firma ta nu valorează nimic fără tine.",
+        "desc": "Vrei să scalezi, să atragi investiții sau să vinzi? O afacere care depinde de fondator nu e un activ — e un job."
+      }
+    ],
+    "outro": "Nu ți-a lipsit dorința de a delega. Nu ți-a lipsit efortul.\nȚi-a lipsit [[proiectul]]."
+  },
+  "faq": {
+    "items": [
+      {
+        "q": "Cum mă înscriu?",
+        "a": "Apeși pe „Înscrie-te\" și primești direct detaliile înscrierii — pachetele, prețurile și pașii următori. Grupul e restrâns intenționat, iar locurile se ocupă în ordinea înscrierii."
+      },
+      {
+        "q": "E pentru afacerea mea?",
+        "a": "Programul e construit pentru afaceri active — cu clienți, fie că ești singură la cârmă sau ai deja o mână de oameni în jurul tău. Dacă te-ai regăsit în situațiile de mai sus, e pentru tine. Nu contează dacă ești solo sau ai angajați; lipsa sistemului arată la fel peste tot."
+      },
+      {
+        "q": "E prea scump",
+        "a": "Înțeleg — și haosul costă lunar: ore pierdute, decizii amânate, creștere oprită. Diferența e că programul se plătește o singură dată, iar sistemul rămâne al tău — organigramă, procese, tablou de bord care lucrează în fiecare lună de acum înainte."
+      },
+      {
+        "q": "Nu am timp",
+        "a": "2–3 ore pe săptămână — mai puțin decât pierzi acum în haos într-o singură zi. Iar programul e construit exact pentru oameni fără timp: fiecare oră investită îți întoarce ore, pentru că predai din mers ce documentezi."
+      },
+      {
+        "q": "Am mai cumpărat cursuri și nu m-au ajutat",
+        "a": "Aceasta nu e un curs. E un practicum — construiești, nu consumi. La final ai documente completate pe firma ta, procese scrise și un sistem care funcționează. Dacă ai notițe frumoase și nimic schimbat, ai avut un curs. Aici e invers."
+      },
+      {
+        "q": "Și dacă nu funcționează la mine?",
+        "a": "Victor lucrează cu situația ta concretă, nu cu cazuri generice — pe firma ta, în timp real. Fiecare lecție o implementezi pe loc, cu feedback direct, așa că vezi ce se schimbă pe măsură ce construiești, nu abia la final."
+      },
+      {
+        "q": "Pot face asta singur?",
+        "a": "Poți încerca singură, așa cum ai încercat deja să delegi. Dar fără proiect, orice lași din mână se întoarce tot la tine. Victor a construit singur, fără proiect — i-a luat ani și greșeli plătite scump. Diferența: 3–5 ani, sau 8 săptămâni cu un proiect."
+      }
+    ]
+  },
+  "waitlist": {
+    "success": "Primit, Daniela! Îți trimitem detaliile înscrierii."
+  },
+  "_meta": {
+    "produs": "aa-business",
+    "nume": "Daniela",
+    "nisa": "Nespecificată în brief — afacere mică de servicii, probabil, dar nu s-a menționat domeniul exact.",
+    "brief": "Daniela are deja o afacere (afacere de 1–3 ani, cifră Sub 5.000€/lună, solo / fără angajați). Tipologia dominantă din quiz: Delegare (secundar: Control). Probleme concrete pe care le-a bifat: Am an…",
+    "presupuneri": [
+      "Nișa exactă a afacerii Danielei nu a fost specificată în brief — am rămas la formulări generale, fără exemple operaționale dintr-o industrie anume, pentru a nu inventa fapte.",
+      "Am interpretat tipologia „Delegare” ca fiind despre o tentativă reală, dar fără sistem în spate — de-aici tiparul „tot eu am refăcut”.",
+      "Fiind solo/fără angajați, am presupus că se află în etapa de tranziție spre a angaja sau colabora, deci mesajele landingului despre „pe cale să angajezi” i se aplică natural, fără a forța potrivirea.",
+      "„Incendiu la firmă” l-am tratat generic, ca urgență operațională recurentă, nu ca un eveniment specific de nișă.",
+      "Am legat kilogramele/lipsa sportului de secțiunea despre îmbolnăvire/epuizare fizică, fără a adăuga detalii medicale sau emoționale inventate.",
+      "Am presupus că „a dubla cifra” e un obiectiv de creștere, nu o promisiune de venit făcută de Victor — deci nu o menționez ca rezultat garantat, doar ca dorința ei."
+    ],
+    "generat": "2026-07-14",
+    "autor": "quiz:Daniela",
+    "sessionId": "2608784d-e672-402e-bc24-307acc6adfd1"
+  }
+}

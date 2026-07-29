@@ -23,3 +23,11 @@ export const PAY = {
 } as const
 
 export type PlanKey = keyof typeof PAY
+
+/* ── Oferta 24h (pagina /oferta) ──────────────────────────────────────
+   Un avans unic de 200 € (pentru orice tarif) care garantează locul.
+   ⚠️ TODO: pune aici linkul Paynet REAL de 200 €. Momentan e legat la
+   linkul de avans existent (199 €) ca placeholder funcțional. */
+export const OFFER_AVANS = 200
+export const OFFER_AVANS_URL = PAY.designer.avans
+export const VERA_IG_URL = 'https://www.instagram.com/vera.lozovanu_gutu/'

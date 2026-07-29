@@ -8,6 +8,7 @@ import HeroVideos from './HeroVideos'
 import { ArtVideo, ArtLive, ArtCall, ArtDocs, ArtCommunity, ArtChecklist } from '../fx/BentoArts'
 import EtapeFilm from './EtapeFilm'
 import DurereStack from './DurereStack'
+import Offer, { OfferBar } from './Offer'
 import RadialTimeline from './RadialTimeline'
 import Pricing from './Pricing'
 import { TrustExperience, TrustApplied, TrustSystem } from '../fx/TrustArts'
@@ -341,16 +342,18 @@ function Footer() {
 }
 
 /* ── compunere ──────────────────────────────────────────────────────── */
-export default function Landing({ navSolid }: { navSolid: boolean }) {
+export default function Landing({ navSolid, offer = false }: { navSolid: boolean; offer?: boolean }) {
   const c = useContent()
   return (
     <>
       <Nav solid={navSolid} />
+      {offer && <OfferBar />}
       <HeroVideos />
       <div style={{ borderBottom: '1px solid var(--line)', background: 'var(--surface)', paddingBlock: 20 }}>
         <Marquee items={c.marquee} />
       </div>
       <main>
+        {offer && <Offer />}
         {/* Ordinea de încălzire: viziune → durere → soluție → dovadă → produs → ofertă */}
         <Imagineaza />
         <DurereStack />
@@ -366,7 +369,7 @@ export default function Landing({ navSolid }: { navSolid: boolean }) {
         <Intelligence />
         <Trust />
         <CinematicStatement />
-        <Pricing />
+        <Pricing offer={offer} />
         <FAQ />
       </main>
       <Footer />

@@ -8,6 +8,8 @@ import { initReveal } from './lib/reveal'
 
 export default function App() {
   const [navSolid, setNavSolid] = useState(false)
+  // ruta /oferta → dublura cu oferta de 24h (cronometru + avans 200€, fără rate)
+  const offer = typeof window !== 'undefined' && /^\/oferta(\/|$)/.test(window.location.pathname)
 
   useEffect(() => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
@@ -28,5 +30,5 @@ export default function App() {
     return () => { cancelAnimationFrame(id); lenis.destroy(); cleanupReveal() }
   }, [])
 
-  return <Landing navSolid={navSolid} />
+  return <Landing navSolid={navSolid} offer={offer} />
 }

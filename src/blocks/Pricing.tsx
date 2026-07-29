@@ -7,7 +7,7 @@
  */
 import { useRef, useState } from 'react'
 import { LiquidMetal } from '@paper-design/shaders-react'
-import { PAY, type PlanKey } from '../lib/links'
+import { PAY, OFFER_AVANS, OFFER_AVANS_URL, type PlanKey } from '../lib/links'
 import { useContent } from '../content/ContentContext'
 
 const AVANS = 199 // avansul de rezervare (ambele pachete)
@@ -79,9 +79,10 @@ function Spotlight({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function Pricing() {
+export default function Pricing({ offer = false }: { offer?: boolean }) {
   const c = useContent()
   const [inst, setInst] = useState(false) // false = plată integrală, true = în 2 rate
+  const rate = offer ? false : inst // în ofertă: doar integral + avans, fără rate
   return (
     <section id="pachete" className="section" style={{ borderTop: '1px solid var(--line)' }}>
       <div className="container">
@@ -94,13 +95,15 @@ export default function Pricing() {
           <p className="reveal" style={{ marginTop: 16, fontSize: 15, color: 'var(--text-dim)' }}>{c.pricing.sub}</p>
         </div>
 
-        {/* switch plată integrală / 2 rate */}
-        <div className="reveal" style={{ display: 'flex', justifyContent: 'center', marginBottom: 'clamp(28px,4vw,40px)' }}>
-          <div className="pr-toggle" role="tablist" aria-label="Mod de plată">
-            <button role="tab" aria-selected={!inst} className={!inst ? 'on' : ''} onClick={() => setInst(false)}>Plată integrală</button>
-            <button role="tab" aria-selected={inst} className={inst ? 'on' : ''} onClick={() => setInst(true)}>În 2 rate</button>
+        {/* switch plată integrală / 2 rate — ascuns în modul ofertă */}
+        {!offer && (
+          <div className="reveal" style={{ display: 'flex', justifyContent: 'center', marginBottom: 'clamp(28px,4vw,40px)' }}>
+            <div className="pr-toggle" role="tablist" aria-label="Mod de plată">
+              <button role="tab" aria-selected={!inst} className={!inst ? 'on' : ''} onClick={() => setInst(false)}>Plată integrală</button>
+              <button role="tab" aria-selected={inst} className={inst ? 'on' : ''} onClick={() => setInst(true)}>În 2 rate</button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* carduri */}
         <div className="pr-grid reveal-group">
@@ -112,21 +115,21 @@ export default function Pricing() {
                 <div className="pr-eyebrow">{p.name}</div>
                 <div className="pr-divider" />
                 <div className="pr-price-row">
-                  <span className="pr-price">{fmt(inst ? p.price / 2 : p.price)}</span>
+                  <span className="pr-price">{fmt(rate ? p.price / 2 : p.price)}</span>
                   <span className="pr-cur">€</span>
-                  {inst && <span className="pr-per">/ rată</span>}
+                  {rate && <span className="pr-per">/ rată</span>}
                 </div>
                 <div className="pr-price-2">
-                  {inst
+                  {rate
                     ? <>2 rate egale · <span className="pr-total">total {p.price} €</span></>
                     : <>plată unică · acces 12 luni</>}
                 </div>
                 <p className="pr-sub">{p.sub}</p>
                 <div className="pr-actions">
-                  {inst
+                  {rate
                     ? <a href={PAY[p.key].rata} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ width: '100%' }}>Plătește rata · {fmt(p.price / 2)} €</a>
                     : <a href={PAY[p.key].integral} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ width: '100%' }}>Achită integral · {p.price} €</a>}
-                  <a href={PAY[p.key].avans} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{ width: '100%' }}>Plătește avansul · {AVANS} €</a>
+                  <a href={offer ? OFFER_AVANS_URL : PAY[p.key].avans} target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{ width: '100%' }}>Plătește avansul · {offer ? OFFER_AVANS : AVANS} €</a>
                 </div>
                 <ul className="pr-feats">
                   {p.feats.map((f, i) => (
