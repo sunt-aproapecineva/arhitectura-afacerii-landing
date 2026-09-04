@@ -404,26 +404,82 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 }
 
 /* ══════════════════════════════════════════════════════════════════════
-   ETAPE FILM — metoda ca film pe scroll (imagini full-viewport, crossfade)
+   ETAPE — index sticky + carduri (scroll natural, fără pin)
+   Starea „activ" vine pe [data-on] (vezi nota din EtapeFilm.tsx).
    ══════════════════════════════════════════════════════════════════════ */
-.ef-stage { position: absolute; inset: 0; overflow: hidden; transform-origin: center center; will-change: transform; }
-.ef-content { position: absolute; inset: 0; z-index: 2; will-change: opacity; }
-.ef-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  opacity: 0; transform: scale(1.06); will-change: opacity, transform;
-  transition: opacity 0.9s ease, transform 1.4s cubic-bezier(.16,1,.3,1); }
-.ef-img.on { opacity: 1; transform: scale(1); }
+.et-sec { border-top: 1px solid var(--line); padding-block-start: clamp(8px, 1vw, 16px); }
+.et-grid { display: grid; grid-template-columns: 1fr; gap: clamp(24px, 4vw, 40px); align-items: start; }
+@media (min-width: 900px)  { .et-grid { grid-template-columns: 260px minmax(0, 1fr); gap: 40px; } }
+@media (min-width: 1024px) { .et-grid { grid-template-columns: 300px minmax(0, 1fr); gap: 56px; } }
+@media (min-width: 1280px) { .et-grid { grid-template-columns: 340px minmax(0, 1fr); gap: 72px; } }
 
-@keyframes efTextIn { from { opacity: 0; transform: translateY(16px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
-.ef-text { animation: efTextIn 0.65s cubic-bezier(.22,1,.36,1) both; }
+/* ── index ── */
+.et-rail-eye { color: var(--accent); margin-bottom: 20px; }
+.et-nav { display: flex; flex-direction: column; gap: 2px; }
+.et-nav-btn {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  font: inherit; font-size: var(--t-body); text-align: left; cursor: pointer;
+  color: var(--text-faint); background: none;
+  border: 1px solid transparent; border-radius: var(--r-md);
+  padding: 11px 14px;
+  transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+.et-nav-btn::before {
+  content: ''; flex: none; width: 2px; height: 15px; border-radius: 2px;
+  background: var(--accent); opacity: 0; transform: scaleY(0.35);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.et-nav-btn:hover { color: var(--text); background: var(--interactive); }
+.et-nav-btn[data-on] { color: var(--text); background: var(--interactive); border-color: var(--line); }
+.et-nav-btn[data-on]::before { opacity: 1; transform: scaleY(1); }
+.et-nav-n { font-family: var(--font-display); font-size: var(--t-caption); letter-spacing: 0.06em; color: var(--accent); opacity: 0.45; transition: opacity 0.3s ease; }
+.et-nav-btn[data-on] .et-nav-n { opacity: 1; }
 
-.ef-rail { position: absolute; right: clamp(14px,2.5vw,28px); top: 50%; transform: translateY(-50%);
-  z-index: 2; display: flex; flex-direction: column; gap: 8px; }
-.ef-seg { width: 3px; height: clamp(22px,4.5vh,40px); border-radius: 2px; background: rgba(241,234,217,0.22); transition: background 0.4s ease; }
-.ef-seg.on { background: var(--accent); }
+.et-rail-foot { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+.et-rail-note { font-size: var(--t-body-sm); line-height: 1.6; color: var(--text-dim); margin-bottom: 16px; }
 
+/* desktop: coloana rămâne lipită lângă carduri */
+@media (min-width: 900px) { .et-rail { position: sticky; top: 96px; } }
+/* sub 900px indexul clicabil e redundant (cardurile sunt oricum toate în flux),
+   rămân doar eyebrow-ul și nota, ca intro scurt deasupra cardurilor */
+@media (max-width: 899px) {
+  .et-nav, .et-rail-cta { display: none; }
+  .et-rail-foot { margin-top: 0; padding-top: 0; border-top: 0; }
+  .et-rail-eye { margin-bottom: 12px; }
+  .et-rail-note { margin-bottom: 0; max-width: 46ch; }
+}
+
+/* ── carduri ── */
+.et-cards { list-style: none; display: flex; flex-direction: column; gap: clamp(16px, 2.2vw, 24px); }
+.et-card {
+  overflow: hidden; scroll-margin-top: 92px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  transition: border-color 0.4s ease;
+}
+.et-card[data-on] { border-color: var(--line-hi); }
+.et-card-img { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--abyss); }
+.et-card-img img { width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+.et-card-img::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(14,10,6,0.94) 0%, rgba(14,10,6,0.28) 52%, rgba(14,10,6,0.12) 100%); }
+.et-card-n {
+  position: absolute; right: clamp(14px, 2.4vw, 26px); bottom: 2px; z-index: 1;
+  font-family: var(--font-display); font-size: clamp(46px, 7.5vw, 92px); line-height: 1;
+  color: transparent; -webkit-text-stroke: 1px rgba(241,234,217,0.26);
+  pointer-events: none; user-select: none;
+}
+.et-card-body { padding: clamp(20px, 3vw, 34px); }
+.et-card-eye { color: var(--accent); margin-bottom: 12px; }
+.et-card-t { font-family: var(--font-display); font-weight: 400; font-size: clamp(25px, 3.4vw, 40px); line-height: 1.12; margin-bottom: 12px; }
+.et-card-d { font-size: clamp(15px, 1.7vw, 18px); line-height: 1.6; color: var(--text-dim); max-width: 56ch; }
+
+/* zoom la hover doar unde există cursor real (pe touch e cost degeaba) */
+@media (hover: hover) and (pointer: fine) {
+  .et-card:hover .et-card-img img { transform: scale(1.05); }
+}
+@media (max-width: 640px) { .et-card-img { aspect-ratio: 3 / 2; } }
 @media (prefers-reduced-motion: reduce) {
-  .ef-img { transition: none; transform: none; }
-  .ef-text { animation: none; }
+  .et-card-img img, .et-nav-btn, .et-nav-btn::before, .et-card { transition: none; }
 }
 
 /* ══════════════════════════════════════════════════════════════════════
