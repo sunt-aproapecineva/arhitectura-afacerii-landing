@@ -112,7 +112,6 @@ export default function Offer() {
             <Check />
             <div>
               <h3>Extra acces 2 luni la curs, indiferent de tarif</h3>
-              <p>Îl primești doar în primele 24h. După, dispare.</p>
             </div>
           </div>
         </div>

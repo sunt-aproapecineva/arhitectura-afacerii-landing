@@ -4,12 +4,22 @@
 import { useEffect, useState } from 'react'
 import Lenis from 'lenis'
 import Landing from './blocks/Landing'
+import LongRead from './blocks/LongRead'
+import OTO from './blocks/OTO'
+import Audit from './blocks/Audit'
 import { initReveal } from './lib/reveal'
 
 export default function App() {
   const [navSolid, setNavSolid] = useState(false)
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/'
   // ruta /oferta → dublura cu oferta de 24h (cronometru + avans 200€, fără rate)
-  const offer = typeof window !== 'undefined' && /^\/oferta(\/|$)/.test(window.location.pathname)
+  const offer = /^\/oferta(\/|$)/.test(path)
+  // ruta /citeste → advertorial long-read pentru reclamă (fără prețuri)
+  const longread = /^\/citeste(\/|$)/.test(path)
+  // ruta /oto → ofertă unică post-cumpărare
+  const oto = /^\/oto(\/|$)/.test(path)
+  // ruta /audit → ad landing pentru reclamă, CTA = testul-diagnostic (quiz)
+  const audit = /^\/audit(\/|$)/.test(path)
 
   useEffect(() => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
@@ -30,5 +40,8 @@ export default function App() {
     return () => { cancelAnimationFrame(id); lenis.destroy(); cleanupReveal() }
   }, [])
 
+  if (oto) return <OTO />
+  if (audit) return <Audit />
+  if (longread) return <LongRead />
   return <Landing navSolid={navSolid} offer={offer} />
 }

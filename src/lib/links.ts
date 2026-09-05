@@ -31,3 +31,11 @@ export type PlanKey = keyof typeof PAY
 export const OFFER_AVANS = 200
 export const OFFER_AVANS_URL = PAY.designer.avans
 export const VERA_IG_URL = 'https://www.instagram.com/vera.lozovanu_gutu/'
+
+/* ── OTO — pagina post-cumpărare (/oto): consultație 1-la-1 GRATUITĂ ────
+   CTA = programare la consultație. ⚠️ pune linkul real de programare. */
+export const CONSULT_URL = 'https://calendly.com/'   // ⚠️ placeholder — link real (Calendly / formular / WhatsApp)
+export const OTO_DECLINE_URL = '/'                    // unde duce refuzul (pagina de mulțumire)
+
+/* ── Ad landing /audit → testul-diagnostic (quiz) ─────────────────────── */
+export const QUIZ_URL = 'https://live.morarvictor.com/quiz-nou/quiz'

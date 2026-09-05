@@ -807,3 +807,148 @@ html.lenis, html.lenis body { height: auto; }
 .offer-bar-cta { background: var(--accent); color: var(--on-accent); border-radius: 999px; padding: 7px 14px; font-size: 13px; font-weight: 500; white-space: nowrap; }
 @media (max-width: 480px) { .offer-bar { font-size: 13px; gap: 8px; padding: 9px 10px 9px 14px; } .offer-bar-cta { padding: 6px 11px; } }
 @media (prefers-reduced-motion: reduce) { .offer-tag::before, .offer-bar-dot { animation: none; } }
+
+/* ── LONG-READ (advertorial /citeste) ─────────────────────────────────── */
+.lr-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 120; background: rgba(241,234,217,0.08); }
+.lr-progress-fill { height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; will-change: transform; }
+.lr-nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between;
+  padding: 16px clamp(20px,5vw,40px); background: rgba(14,10,6,0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line); }
+
+.lr { max-width: 680px; margin: 0 auto; padding: clamp(48px,9vw,96px) clamp(20px,5vw,28px) 0; }
+.lr-hero { text-align: left; margin-bottom: clamp(40px,7vw,72px); }
+.lr-eyebrow { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+.lr-h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(34px,6.4vw,60px); line-height: 1.1;
+  letter-spacing: 0.005em; text-wrap: balance; }
+.lr-h1 em { font-style: normal; color: var(--accent); }
+.lr-sub { margin-top: 22px; font-size: clamp(18px,2.4vw,22px); line-height: 1.55; color: var(--text-dim); max-width: 34ch; }
+
+.lr-body { font-size: clamp(17px,2.1vw,20px); line-height: 1.75; color: rgba(241,234,217,0.9); }
+.lr-body p { margin-bottom: 1.35em; }
+.lr-body strong { color: var(--text); font-weight: 600; }
+.lr-lead::first-letter { font-family: var(--font-display); float: left; font-size: 3.4em; line-height: 0.82;
+  padding: 6px 12px 0 0; color: var(--accent); }
+.lr-h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px,4vw,36px); line-height: 1.15;
+  margin: clamp(44px,6vw,68px) 0 20px; letter-spacing: 0.005em; text-wrap: balance; }
+
+.lr-quote { margin: clamp(38px,6vw,56px) 0; padding-left: clamp(20px,4vw,32px); border-left: 3px solid var(--accent);
+  font-family: var(--font-display); font-size: clamp(24px,3.6vw,34px); line-height: 1.28; color: var(--text); letter-spacing: 0.005em; }
+.lr-quote em { font-style: normal; color: var(--accent); }
+.lr-quote cite { display: block; margin-top: 16px; font-family: var(--font); font-style: normal;
+  font-size: 14px; letter-spacing: 0.02em; color: var(--text-dim); }
+
+.lr-steps { list-style: none; margin: 8px 0 1.35em; padding: 0; }
+.lr-steps li { position: relative; padding: 14px 0 14px 34px; border-top: 1px solid var(--line);
+  font-size: clamp(16px,1.9vw,18px); line-height: 1.55; color: var(--text-dim); }
+.lr-steps li::before { content: ''; position: absolute; left: 4px; top: 22px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.lr-steps li b { color: var(--text); font-weight: 600; }
+
+.lr-final { margin: clamp(56px,9vw,90px) 0 clamp(40px,7vw,72px); padding: clamp(28px,4vw,44px);
+  border: 1px solid var(--accent-soft-hi); border-radius: var(--r-lg);
+  background: radial-gradient(120% 90% at 50% 0%, rgba(201,168,76,0.10), rgba(14,10,6,0) 60%), var(--surface); text-align: center; }
+.lr-final p { color: var(--text-dim); max-width: 46ch; margin-inline: auto; }
+.lr-final-note { margin-top: 18px; font-size: 13px; color: var(--text-faint); }
+
+.lr-foot { border-top: 1px solid var(--line); text-align: center; padding: 40px 20px; color: var(--text-faint); font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { .lr-progress-fill { transition: none; } }
+@media (max-width: 560px) { .lr-nav .lr-cta-btn { display: none; } }
+
+/* ── OTO — ofertă unică post-cumpărare (/oto) ─────────────────────────── */
+.oto-page { min-height: 100vh; display: grid; place-items: center; padding: clamp(24px,6vw,64px) 20px; }
+.oto-card { width: 100%; max-width: 600px; text-align: center;
+  border: 1px solid var(--accent-soft-hi); border-radius: var(--r-lg);
+  background: radial-gradient(120% 90% at 50% 0%, rgba(201,168,76,0.10), rgba(14,10,6,0) 55%), var(--surface);
+  padding: clamp(28px,5vw,52px); animation: otoIn 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes otoIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.oto-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.08em;
+  color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent-soft-hi);
+  border-radius: 999px; padding: 7px 14px; margin-bottom: 24px; }
+.oto-h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(28px,4.6vw,42px); line-height: 1.12;
+  letter-spacing: 0.005em; margin-bottom: 22px; text-wrap: balance; }
+.oto-body { font-size: clamp(15px,1.9vw,17px); line-height: 1.65; color: rgba(241,234,217,0.82); text-align: left; }
+.oto-body p { margin-bottom: 14px; }
+.oto-body strong { color: var(--text); font-weight: 600; }
+.oto-proof { margin-top: 22px; font-family: var(--font-display); font-size: clamp(17px,2.2vw,21px);
+  line-height: 1.35; color: var(--text); }
+.oto-reason { margin-top: 14px; font-size: 13.5px; line-height: 1.55; color: var(--text-dim); max-width: 46ch; margin-inline: auto; }
+.oto-cta { width: 100%; margin-top: 30px; padding: 17px 26px; font-size: clamp(15px,2vw,17px); text-align: center; white-space: normal; }
+.oto-decline { display: inline-block; margin-top: 18px; font-size: 13px; color: var(--text-faint);
+  text-decoration: underline; text-underline-offset: 3px; transition: color 0.25s ease; }
+.oto-decline:hover { color: var(--text-dim); }
+
+/* OTO — lista „ce primești" în consultație */
+.oto-list { list-style: none; margin: 22px 0 4px; padding: 0; text-align: left; display: flex; flex-direction: column; gap: 12px; }
+.oto-list li { display: flex; align-items: flex-start; gap: 11px; font-size: clamp(14px,1.8vw,16px); line-height: 1.45; color: rgba(241,234,217,0.9); }
+.oto-tick { flex-shrink: 0; width: 22px; height: 22px; margin-top: 1px; border-radius: 7px; display: grid; place-items: center;
+  color: var(--on-accent); background: var(--accent); }
+
+/* ── AD LANDING /audit — motion după skill-urile Emil Kowalski ─────────── */
+:root { --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); }
+
+.au-nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+  padding: 16px 20px; background: rgba(14,10,6,0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line); }
+.au { max-width: 720px; margin: 0 auto; padding-inline: clamp(20px,5vw,28px); }
+
+/* HERO */
+.au-hero { text-align: center; padding: clamp(40px,8vw,80px) 0 clamp(48px,8vw,88px); }
+.au-eyebrow { display: inline-block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+  background: var(--accent-soft); border: 1px solid var(--accent-soft-hi); border-radius: 999px; padding: 6px 14px; margin-bottom: 22px; }
+.au-h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px,6.2vw,56px); line-height: 1.08;
+  letter-spacing: 0.005em; text-wrap: balance; margin-bottom: 20px; }
+.au-sub { font-size: clamp(16px,2.2vw,20px); line-height: 1.55; color: var(--text-dim); max-width: 40ch; margin: 0 auto; }
+.au-trust { margin-top: 16px; font-size: 13px; color: var(--text-faint); letter-spacing: 0.02em; }
+
+/* vizual haos→ordine — 24 puncte care se asamblează la mount (ease-out, stagger) */
+.au-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: clamp(10px,2vw,18px);
+  width: 100%; max-width: 300px; margin: 0 auto clamp(36px,5vw,52px); }
+/* stare de repaus VIZIBILĂ; @starting-style animează din împrăștiat → degradează grațios */
+.au-dot { width: 100%; aspect-ratio: 1; border-radius: 50%; background: var(--line-hi);
+  opacity: 1; transform: none;
+  transition: opacity 0.7s var(--ease-out) var(--dd, 0ms), transform 0.9s var(--ease-out) var(--dd, 0ms); }
+.au-dot.gold { background: var(--accent); box-shadow: 0 0 18px rgba(201,168,76,0.55); }
+@starting-style {
+  .au-dot { opacity: 0; transform: translate(var(--sx,0), var(--sy,0)) rotate(var(--sr,0)) scale(0.5); }
+}
+
+/* CTA — press feedback instant (Apple: răspunde pe apăsare), hover gated */
+.au-cta { gap: 9px; padding: 16px 30px; font-size: clamp(15px,2vw,17px);
+  transition: background 0.2s var(--ease-out), transform 0.12s var(--ease-out); }
+.au-cta svg { transition: transform 0.2s var(--ease-out); }
+.au-cta:active { transform: scale(0.97); }
+.au-cta-block { display: inline-flex; }
+@media (hover: hover) and (pointer: fine) {
+  .au-cta:hover { background: var(--accent-hi); }
+  .au-cta:hover svg { transform: translateX(3px); }
+}
+
+/* SECȚIUNI */
+.au-section { padding-block: clamp(40px,7vw,72px); border-top: 1px solid var(--line); }
+.au-h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px,4vw,34px); line-height: 1.14;
+  text-align: center; text-wrap: balance; margin-bottom: clamp(28px,4vw,40px); }
+.au-pains { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (max-width: 560px) { .au-pains { grid-template-columns: 1fr; } }
+.au-pain { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border: 1px solid var(--line);
+  border-radius: var(--r-md); background: var(--surface); font-size: clamp(15px,1.9vw,16px); line-height: 1.3; }
+.au-pain-dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.au-note { margin-top: clamp(24px,4vw,32px); text-align: center; font-size: clamp(15px,1.9vw,17px);
+  line-height: 1.55; color: var(--text-dim); max-width: 48ch; margin-inline: auto; }
+
+.au-reveals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 700px) { .au-reveals { grid-template-columns: 1fr; } }
+.au-rev { padding: clamp(20px,3vw,28px); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.au-rev-n { font-size: 13px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.au-rev-t { font-size: clamp(16px,2vw,18px); font-weight: 500; line-height: 1.3; margin: 12px 0 8px; }
+.au-rev-d { font-size: 14px; line-height: 1.5; color: var(--text-dim); }
+
+.au-final { text-align: center; padding: clamp(52px,8vw,88px) 0; border-top: 1px solid var(--line); }
+.au-final-sub { font-size: clamp(15px,2vw,18px); color: var(--text-dim); max-width: 46ch; margin: 0 auto clamp(28px,4vw,36px); line-height: 1.55; }
+.au-foot { border-top: 1px solid var(--line); text-align: center; padding: 36px 20px; color: var(--text-faint); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .au-dot { transition: opacity 0.3s ease; }
+  .au-cta:active { transform: none; }
+}
+
+@keyframes auFade { from { opacity: 0; } to { opacity: 1; } }
