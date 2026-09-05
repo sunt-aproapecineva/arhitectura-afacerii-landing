@@ -19,7 +19,11 @@ dist-ssr
 .claude
 
 # arhive & referințe (nu fac parte din app)
-_archive
+_archive/*
+# excepție: originalele imaginilor de etape, înainte de re-encodare la 1400x800.
+# Fără ele nu se mai pot regenera la altă rezoluție. (Trebuie `_archive/*`, nu
+# `_archive` — git nu poate re-include un fișier dintr-un director deja exclus.)
+!_archive/etape-orig/
 design-system
 
 # logs
